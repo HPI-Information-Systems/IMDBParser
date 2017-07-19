@@ -22,10 +22,8 @@ public class IMDBParser {
     public IMDBParser() {
     }
 
-    public void parseFile() throws IOException {
-        String filePath = "X:\\HPI_Allgemein\\Arbeitsgruppen\\naumann\\Daten\\IMDB\\database";
-        String filename = "movies.list.gz";
-        GZIPInputStream is = new GZIPInputStream(new FileInputStream(filePath + File.separator + filename));
+    public void parseFile(String fullPath) throws IOException {
+        GZIPInputStream is = new GZIPInputStream(new FileInputStream(fullPath));
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = br.readLine();
         while(line !=null){
