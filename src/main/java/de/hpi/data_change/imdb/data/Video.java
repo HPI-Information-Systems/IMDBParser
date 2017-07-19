@@ -22,7 +22,16 @@ public abstract class Video {
     public static Video createFromTokens(String titleString, String yearString, List<String> extraTokens) {
         if(titleString.startsWith("\"")){
             //assert(titleString.charAt(titleString.lastIndexOf('\"')+1) == ' ');
-            if(yearString.indexOf('-')!=-1){
+            if(titleString.contains("{")){
+                if(yearString.indexOf('-')!=-1){
+                    String[] yearTokens = yearString.split("-");
+                    Year startYear = parseYear(yearTokens[0]);
+                    Year endYear = parseYear(yearTokens[1]);
+                    return new TVEpisode(titleString,startYear,endYear,extraTokens);
+                } else {
+                    return new TVEpisode(titleString, parseYear(yearString), extraTokens);
+                }
+            } else if(yearString.indexOf('-')!=-1){
                 String[] yearTokens = yearString.split("-");
                 Year startYear = parseYear(yearTokens[0]);
                 Year endYear = parseYear(yearTokens[1]);

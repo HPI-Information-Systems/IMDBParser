@@ -8,8 +8,22 @@ import java.util.List;
  */
 public class TVEpisode extends Video {
 
+    private Year endYear;
+
     public TVEpisode(String title, Year year, List<String> extraTokens) {
         super(title, year, extraTokens);
+    }
+
+    public TVEpisode(String title, Year startYear, Year endYear, List<String> extraTokens) {
+        super(title,startYear,extraTokens);
+        this.endYear = endYear;
+    }
+
+    public String getEpisodeName(){
+        int startIndex = title.indexOf('{')+1;
+        int endIndex = title.lastIndexOf('}');
+        String episodeTitle = title.substring(startIndex, endIndex);
+        return episodeTitle;
     }
 
     @Override

@@ -45,10 +45,10 @@ public class IMDBParser {
             return;
         }
         if(state == LexerState.SKIPNEXT){
-            state = LexerState.PARSEMOVIE;
+            state = LexerState.PARSEENTRY;
             return;
         }
-        if(state == LexerState.PARSEMOVIE){
+        if(state == LexerState.PARSEENTRY){
             if(line.chars().allMatch(i -> i==endChar) && line.chars().count()>=endCount){
                 state = LexerState.DONE;
                 return;
