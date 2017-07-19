@@ -10,7 +10,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * Created by Leon.Bornemann on 7/18/2017.
  */
-public class IMDBParser {
+public class IMDBMovieListParser {
 
     private int beginCount = 11;
     private char beginChar = '=';
@@ -21,7 +21,7 @@ public class IMDBParser {
     private List<Video> movies = new ArrayList<>();
     private List<String> malFormattedLines = new ArrayList<>();
 
-    public IMDBParser() {
+    public IMDBMovieListParser() {
     }
 
     public void parseFile(String fullPath) throws IOException {

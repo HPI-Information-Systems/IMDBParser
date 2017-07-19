@@ -1,6 +1,6 @@
 package de.hpi.data_change.imdb.main;
 
-import de.hpi.data_change.imdb.parsing.IMDBParser;
+import de.hpi.data_change.imdb.parsing.IMDBMovieListParser;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public class ExampleParsing {
             System.err.println("Terminating");
             return;
         }
-        IMDBParser imdbParser = new IMDBParser();
+        IMDBMovieListParser imdbParser = new IMDBMovieListParser();
         String fullPath = args[0];
         imdbParser.parseFile(fullPath);
         imdbParser.print();
