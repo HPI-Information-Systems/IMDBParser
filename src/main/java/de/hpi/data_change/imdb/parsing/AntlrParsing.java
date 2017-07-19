@@ -1,12 +1,12 @@
 package de.hpi.data_change.imdb.parsing;
 
-import de.hpi.data_change.imdb.gen.DirectorsLexer;
-import de.hpi.data_change.imdb.gen.DirectorsParser;
+import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;
+import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.

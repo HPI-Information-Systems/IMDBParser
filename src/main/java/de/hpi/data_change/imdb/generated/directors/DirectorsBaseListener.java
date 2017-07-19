@@ -1,5 +1,5 @@
-// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources\Directors.g4 by ANTLR 4.7
-package de.hpi.data_change.imdb.gen;
+// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources/grammars\Directors.g4 by ANTLR 4.7
+package de.hpi.data_change.imdb.generated.directors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
