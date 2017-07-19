@@ -1,4 +1,4 @@
-package de.hpi.data_change.imdb.main;
+package de.hpi.data_change.imdb.data;
 
 import java.time.Year;
 import java.util.List;

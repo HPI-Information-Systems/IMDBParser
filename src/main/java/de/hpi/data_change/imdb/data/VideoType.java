@@ -1,4 +1,4 @@
-package de.hpi.data_change.imdb.main;
+package de.hpi.data_change.imdb.data;
 
 /**
  * Created by Leon.Bornemann on 7/18/2017.

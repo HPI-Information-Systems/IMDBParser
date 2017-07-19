@@ -1,6 +1,7 @@
 package de.hpi.data_change.imdb.main;
 
-import java.io.File;
+import de.hpi.data_change.imdb.parsing.IMDBParser;
+
 import java.io.IOException;
 
 /**

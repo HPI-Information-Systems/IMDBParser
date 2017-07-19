@@ -1,4 +1,6 @@
-package de.hpi.data_change.imdb.main;
+package de.hpi.data_change.imdb.parsing;
+
+import de.hpi.data_change.imdb.data.Video;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class IMDBParser {
     private char endChar = '-';
     private int endCount = 20;
 
-    private State state = State.FIND_START;
+    private LexerState state = LexerState.FIND_START;
     private List<Video> movies = new ArrayList<>();
     private List<String> malFormattedLines = new ArrayList<>();
 
@@ -33,22 +35,22 @@ public class IMDBParser {
     }
 
     private void processLine(String line) {
-        if(state == State.DONE){
+        if(state == LexerState.DONE){
             return;
         }
-        if(state == State.FIND_START){
+        if(state == LexerState.FIND_START){
             if(line.chars().allMatch(i -> i==beginChar) && line.chars().count()>=beginCount){
-                state = State.SKIPNEXT;
+                state = LexerState.SKIPNEXT;
             }
             return;
         }
-        if(state == State.SKIPNEXT){
-            state = State.PARSEMOVIE;
+        if(state == LexerState.SKIPNEXT){
+            state = LexerState.PARSEMOVIE;
             return;
         }
-        if(state == State.PARSEMOVIE){
+        if(state == LexerState.PARSEMOVIE){
             if(line.chars().allMatch(i -> i==endChar) && line.chars().count()>=endCount){
-                state = State.DONE;
+                state = LexerState.DONE;
                 return;
             } else {
                 parseVideo(line);
