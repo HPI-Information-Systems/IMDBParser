@@ -1,13 +1,14 @@
 package de.hpi.data_change.imdb.main;
 
-import de.hpi.data_change.imdb.parsing.movies.IMDBMovieListParser;
+import de.hpi.data_change.imdb.parsing.directors.DirectorsReader;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by Leon.Bornemann on 7/18/2017.
+ * Created by Leon.Bornemann on 7/19/2017.
  */
-public class ExampleParsing {
+public class DirectorParsing {
 
     public static void main(String[] args) throws IOException {
         if(args.length==0){
@@ -15,9 +16,8 @@ public class ExampleParsing {
             System.err.println("Terminating");
             return;
         }
-        IMDBMovieListParser imdbParser = new IMDBMovieListParser();
-        String fullPath = args[0];
-        imdbParser.parseFile(fullPath);
-        imdbParser.print();
+        DirectorsReader directorsReader = new DirectorsReader();
+        directorsReader.parseGZ(new File(args[0]));
+        directorsReader.printResult();
     }
 }

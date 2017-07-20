@@ -76,6 +76,18 @@ public class DirectorsBaseListener implements DirectorsListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDirectorName(DirectorsParser.DirectorNameContext ctx) { }
 	/**
 	 * {@inheritDoc}

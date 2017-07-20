@@ -58,6 +58,16 @@ public interface DirectorsListener extends ParseTreeListener {
 	 */
 	void exitDirectorList(DirectorsParser.DirectorListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DirectorsParser#directorAndWork}.
+	 * @param ctx the parse tree
+	 */
+	void enterDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DirectorsParser#directorAndWork}.
+	 * @param ctx the parse tree
+	 */
+	void exitDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DirectorsParser#directorName}.
 	 * @param ctx the parse tree
 	 */

@@ -1,24 +1,24 @@
-package de.hpi.data_change.imdb.parsing;
+package de.hpi.data_change.imdb.parsing.directors;
 
+import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.*;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class AntlrParsing {
+public class DirectorsReader {
 
-    public static void main(String[] args) throws IOException {
-        //new AntlrParsing().parseGZ(new File("X:\\HPI_Allgemein\\Arbeitsgruppen\\naumann\\Daten\\IMDB\\database\\directors.list.gz"));
-        new AntlrParsing().parseText(new File("resources/testData/directorTest.txt"));
-    }
+    private DirectorsAggregator listener = new DirectorsAggregator();
 
-    private void parseText(File file) throws IOException {
+
+    public void parseText(File file) throws IOException {
         parseInputStream(new FileInputStream(file));
     }
 
@@ -33,7 +33,16 @@ public class AntlrParsing {
         DirectorsLexer lex = new DirectorsLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
         DirectorsParser parser = new DirectorsParser(tokens); // transforms tokens into parse trees
+        parser.addParseListener(listener);
         ParseTree t = parser.r(); // creates the parse tree from the called rule
+    }
+
+    public void printResult() {
+        listener.getResult().forEach(d -> System.out.println(d));
+    }
+
+    public List<Director> getDirectors() {
+        return listener.getResult();
     }
 
     /*

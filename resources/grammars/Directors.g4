@@ -9,7 +9,8 @@ r  : anythingButStart
 anythingButStart: ( anyline | ENDSIGNAL )* {System.out.println("Matched Anything but start");};
 anyline : (ANYTHING|SEP)* NEWLINE;
 anyLineOrEOF: (ANYTHING|SEP)* (NEWLINE |EOF);
-directorList : (directorName SEP workList NEWLINE ) *;
+directorList : (directorAndWork ) *;
+directorAndWork: directorName SEP workList NEWLINE;
 directorName : ANYTHING;
 workList: workElement+;
 workElement: SEP? ANYTHING NEWLINE ;

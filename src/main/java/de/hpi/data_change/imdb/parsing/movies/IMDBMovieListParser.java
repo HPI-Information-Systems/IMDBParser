@@ -1,4 +1,4 @@
-package de.hpi.data_change.imdb.parsing;
+package de.hpi.data_change.imdb.parsing.movies;
 
 import de.hpi.data_change.imdb.data.Video;
 
