@@ -1,5 +1,9 @@
 package de.hpi.data_change.imdb.data;
 
+import de.hpi.data_change.data.Entity;
+import de.hpi.data_change.data.Property;
+
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -7,6 +11,7 @@ import java.util.List;
  */
 public class Director {
 
+    private static final String PROPERTY_NAME = "works";
     private String name;
     private List<String> workTitles;
 
@@ -39,5 +44,25 @@ public class Director {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (workTitles != null ? workTitles.hashCode() : 0);
         return result;
+    }
+
+    public Entity toEntity(){
+        return new Entity(name,workTitlesToString());
+    }
+
+    private List<Property> workTitlesToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (int i=0;i<workTitles.size();i++) {
+            String workTitle  = workTitles.get(i);
+            builder.append("\"");
+            builder.append(workTitle);
+            builder.append("\"");
+            if(i!=workTitles.size()-1){
+                builder.append(",");
+            }
+        }
+        builder.append("]");
+        return Arrays.asList(new Property(PROPERTY_NAME,builder.toString()));
     }
 }

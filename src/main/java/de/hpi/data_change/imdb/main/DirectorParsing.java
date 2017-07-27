@@ -18,6 +18,6 @@ public class DirectorParsing {
         }
         DirectorsReader directorsReader = new DirectorsReader();
         directorsReader.parseGZ(new File(args[0]));
-        directorsReader.printResult();
+        //directorsReader.printResult();
     }
 }

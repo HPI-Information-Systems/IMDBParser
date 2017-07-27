@@ -27,6 +27,10 @@ public class DirectorsAggregator extends DirectorsBaseListener {
         if(ctx.getChildCount()==3) {
             curWorks.add(ctx.getChild(1).getText());
         } else{
+            if(ctx.getChildCount()!=2){
+                System.err.println("Assertion error incoming - weird number of elements in parse tree");
+                System.err.println("Starting line: " + ctx.start.getLine() + "  ending line: " + ctx.stop.getLine());
+            }
             assert(ctx.getChildCount()==2);
             curWorks.add(ctx.getChild(0).getText());
         }

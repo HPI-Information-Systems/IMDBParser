@@ -28,7 +28,7 @@ public class DirectorsReader {
     }
 
     private void parseInputStream(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF8")); //TODO: how do we know it is UTF8?
         CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
         DirectorsLexer lex = new DirectorsLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
