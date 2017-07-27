@@ -39,6 +39,7 @@ public class EntityCollection {
         handleDeletedEntities(olderVersion, writer);
         //modified entity-property relationships:
         handleEntityChanges(olderVersion, writer);
+        writer.close();
     }
 
     private void handleEntityChanges(EntityCollection olderVersion, PrintWriter writer) {
