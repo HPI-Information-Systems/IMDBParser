@@ -1,5 +1,7 @@
 package de.hpi.data_change.data;
 
+import de.hpi.data_change.imdb.IOConstants;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -63,7 +65,7 @@ public class EntityCollection {
                         .filter(p -> !newPropNames.contains(p.getName()))
                         .collect(Collectors.toList());
                 for (Property deletedProperty : deletedProperties) {
-                    Property deletedProp = new Property(deletedProperty.getName(),"");
+                    Property deletedProp = new Property(deletedProperty.getName(), IOConstants.NULL_REPRESENTATION);
                     deletedProp.writeln(writer,timestamp,newEntity.getName());
                 }
             }
@@ -78,7 +80,7 @@ public class EntityCollection {
                 .collect(Collectors.toSet());
         for (Entity deletedEntity : deletedEntities) {
             deletedEntity.getProperties().stream()
-                .map(p -> new Property(p.getName(),""))
+                .map(p -> new Property(p.getName(),IOConstants.NULL_REPRESENTATION))
                 .forEach(p -> p.writeln(writer,timestamp,deletedEntity.getName()));
         }
     }

@@ -39,7 +39,6 @@ class EntityCollectionTest {
         assertTrue(lines.contains("\"e2\",\"d\",\"1\",2017-07-28"));
         assertTrue(lines.contains("\"e2\",\"c\",\"\",2017-07-28"));
         assertEquals(6,lines.size());
-        //TODO: finish asserting
     }
 
     @Test

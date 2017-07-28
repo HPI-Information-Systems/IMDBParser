@@ -1,5 +1,6 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
+import de.hpi.data_change.imdb.IOConstants;
 import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
@@ -28,7 +29,7 @@ public class DirectorsReader {
     }
 
     private void parseInputStream(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF8")); //TODO: how do we know it is UTF8?
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, IOConstants.ENCODING)); //TODO: how do we know it is UTF8?
         CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
         DirectorsLexer lex = new DirectorsLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream

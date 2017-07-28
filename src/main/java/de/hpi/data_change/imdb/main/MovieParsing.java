@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by Leon.Bornemann on 7/18/2017.
  */
-public class ExampleParsing {
+public class MovieParsing {
 
     public static void main(String[] args) throws IOException {
         if(args.length==0){

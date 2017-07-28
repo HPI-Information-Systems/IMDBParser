@@ -1,5 +1,6 @@
 package de.hpi.data_change.imdb.parsing.movies;
 
+import de.hpi.data_change.imdb.IOConstants;
 import de.hpi.data_change.imdb.data.Video;
 
 import java.io.*;
@@ -26,7 +27,7 @@ public class IMDBMovieListParser {
 
     public void parseFile(String fullPath) throws IOException {
         GZIPInputStream is = new GZIPInputStream(new FileInputStream(fullPath));
-        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF8")); //TODO: lets hope this is UTF8 - how do we determine that?
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, IOConstants.ENCODING)); //TODO: lets hope this is UTF8 - how do we determine that?
         String line = br.readLine();
         while(line !=null){
             processLine(line);
