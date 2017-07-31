@@ -46,28 +46,42 @@ public class ChangeExtractor {
         entityType = originalFile.getName().split("\\.")[0];
     }
 
-    public void extractChanges() throws IOException {
+    public void extractChanges() throws IOException, InterruptedException {
         String entityType = originalFile.getName().split("\\.")[0];
-        DiffExtractor extractor = new DiffExtractor();
-        extractor.extractDiffFiles(diffFiles,originalFile.getName(), diffDir);
-        if(diffDirIsTemporary){
-            Arrays.stream(diffDir.listFiles()).forEach(f -> f.deleteOnExit());
+        List<Diff> diffs;
+        if(diffFilesAreCompressed()) {
+            System.out.println("launching decompression and extraction of diff files");
+            DiffExtractor extractor = new DiffExtractor();
+            extractor.extractDiffFiles(diffFiles, originalFile.getName(), diffDir);
+            if (diffDirIsTemporary) {
+                Arrays.stream(diffDir.listFiles()).forEach(f -> f.deleteOnExit());
+            }
+            diffs = Arrays.stream(diffDir.listFiles())
+                    .map(f -> new Diff(f, toDate(f.getName())))
+                    .collect(Collectors.toList());
+        } else{
+            System.out.println("directly accessing diff files");
+            diffs = diffFiles.stream()
+                    .map(f -> new Diff(f, toDate(f.getName())))
+                    .collect(Collectors.toList());
         }
-        List<Diff> diffs = Arrays.stream(diffDir.listFiles())
-                .map(f -> new Diff(f,toDate(f.getName())))
-                .collect(Collectors.toList());
         File source = getOldestVersion(diffs);
         //Change database writing:
         extractForwardChanges(diffs, source);
     }
 
-    private File getOldestVersion(List<Diff> diffs) {
+    private boolean diffFilesAreCompressed() {
+        return diffFiles.stream().map(f -> f.getName()).allMatch(fname -> fname.endsWith(".gz"));
+    }
+
+    private File getOldestVersion(List<Diff> diffs) throws IOException, InterruptedException {
         List<Diff> diffsOrdered = diffs.stream()
                 .sorted((d1, d2) -> d2.getTimestamp().compareTo(d1.getTimestamp()))
                 .collect(Collectors.toList());
-        diffsOrdered.forEach( f -> System.out.println(f.getDiffFile().getName()));
-        File source = originalFile;
-        File target = new File(originalFile.getParent() + "intermediate_" + originalFile.getName());
+        File source = new File(originalFile.getAbsolutePath());
+        System.out.println(source.getAbsolutePath());
+        System.out.println(source.getParentFile().getAbsolutePath());
+        File target = new File(source.getParentFile(),"intermediate_" + originalFile.getName());
         for (Diff diffFile : diffsOrdered) {
             diffApplyer.applyDiffBackwards(source,diffFile.getDiffFile(),target);
             source = target;
@@ -75,7 +89,7 @@ public class ChangeExtractor {
         return source;
     }
 
-    private void extractForwardChanges(List<Diff> diffsOrdered, File source) throws IOException {
+    private void extractForwardChanges(List<Diff> diffsOrdered, File source) throws IOException, InterruptedException {
         DirectorsReader directorsReader = new DirectorsReader();
         directorsReader.parseGZ(source);
         Collections.sort(diffsOrdered);
@@ -85,8 +99,8 @@ public class ChangeExtractor {
         EntityCollection current = originalCollection;
         File currentFile = source;
         for(Diff diff : diffsOrdered){
+            System.out.println("Applying forward diff " + diff.getDiffFile().getName() + "  " + diff.getTimestamp());
             diffApplyer.applyDiffForwards(currentFile,diff.getDiffFile(),currentFile);
-            //TODO: parse
             directorsReader.parseText(currentFile);
             EntityCollection updatedCollection = new EntityCollection(directorsReader.getDirectors().stream().map(d -> d.toEntity()).collect(Collectors.toList()),diff.getTimestamp());
             updatedCollection.appendChanges(current,changeFile);

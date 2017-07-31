@@ -1,15 +1,38 @@
 package de.hpi.data_change.imdb.change_extraction;
 
 import java.io.File;
+import java.io.IOException;
 
 public class DiffApplyer {
 
-    public void applyDiffBackwards(File prev, File file, File next) {
-        throw new UnsupportedOperationException("Still needs to be implemented");
+    public void applyDiffBackwards(File original, File diffFile, File target) throws IOException, InterruptedException {
+        String cmd = "patch";
+        String arg1 = "-R";
+        String arg2 = original.getAbsolutePath();
+        String arg3 = diffFile.getAbsolutePath();
+        String arg4 = "-o";
+        String arg5 = target.getAbsolutePath();
+        System.out.println("executing " + cmd + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4 + " " + arg5);
+        ProcessBuilder pb = new ProcessBuilder(cmd,arg1,arg2,arg3,arg4,arg5)
+                .redirectErrorStream(true);
+        execute(pb);
     }
 
-    public void applyDiffForwards(File prev, File file, File next) {
-        throw new UnsupportedOperationException("Still needs to be implemented");
+    private void execute(ProcessBuilder pb) throws IOException, InterruptedException {
+        Process p = pb.start();
+        p.waitFor();
+    }
+
+    public void applyDiffForwards(File original, File diffFile, File target) throws IOException, InterruptedException {
+        String cmd = "patch";
+        String arg1 = original.getAbsolutePath();
+        String arg2 = diffFile.getAbsolutePath();
+        String arg3 = "-o";
+        String arg4 = target.getAbsolutePath();
+        System.out.println("executing " + cmd + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
+        ProcessBuilder pb = new ProcessBuilder(cmd,arg1,arg2,arg3,arg4)
+                .redirectErrorStream(true);
+        execute(pb);
     }
 
 }

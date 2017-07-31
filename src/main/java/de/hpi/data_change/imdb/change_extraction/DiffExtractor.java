@@ -7,6 +7,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class DiffExtractor {
@@ -34,5 +35,13 @@ public class DiffExtractor {
             }
             tarInput.close();
         }
+    }
+
+    public static List<File> getDiffFilesInDir(File file) {
+        System.out.println(file.getAbsolutePath());
+        File[] diffs = file.listFiles(
+                (f, fname) -> fname.startsWith("diff") && (fname.endsWith(".tar.gz") || fname.endsWith(".list")));
+
+        return Arrays.asList(diffs);
     }
 }
