@@ -1,14 +1,19 @@
 package de.hpi.data_change.data;
 
 import de.hpi.data_change.imdb.IOConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityCollection {
+
+    Logger logger = LogManager.getLogger(EntityCollection.class);
 
     private Map<String,Entity> entities;
     private LocalDate timestamp;
@@ -20,7 +25,15 @@ public class EntityCollection {
         }
         this.timestamp = timestamp;
         //assert entity uniqueness:
-        assert(entities.size() == this.entities.size());
+        if(entities.size() !=this.entities.size()){
+            logger.warn("Found dublicate entities, size of List: {} Size of Set: {}",entities.size(),this.entities.size());
+
+        }
+        //assert(entities.size() == this.entities.size());
+    }
+
+    public EntityCollection(Stream<Entity> entities, LocalDate timestamp) {
+        this(entities.collect(Collectors.toList()),timestamp);
     }
 
     /***

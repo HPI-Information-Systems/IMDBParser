@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class DiffApplyer {
 
-    public void applyDiffBackwards(File original, File diffFile, File target) throws IOException, InterruptedException {
+    public boolean applyDiffBackwards(File original, File diffFile, File target) throws IOException, InterruptedException {
         String cmd = "patch";
         String arg1 = "-R";
         String arg2 = original.getAbsolutePath();
@@ -15,7 +15,14 @@ public class DiffApplyer {
         System.out.println("executing " + cmd + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4 + " " + arg5);
         ProcessBuilder pb = new ProcessBuilder(cmd,arg1,arg2,arg3,arg4,arg5)
                 .redirectErrorStream(true);
+        pb.inheritIO();
         execute(pb);
+        if(new File(target.getAbsolutePath() + ".rej").exists()){
+            System.err.println("Houston we have a problem...");
+            return false;
+        } else{
+            return true;
+        }
     }
 
     private void execute(ProcessBuilder pb) throws IOException, InterruptedException {
@@ -23,7 +30,7 @@ public class DiffApplyer {
         p.waitFor();
     }
 
-    public void applyDiffForwards(File original, File diffFile, File target) throws IOException, InterruptedException {
+    public boolean applyDiffForwards(File original, File diffFile, File target) throws IOException, InterruptedException {
         String cmd = "patch";
         String arg1 = original.getAbsolutePath();
         String arg2 = diffFile.getAbsolutePath();
@@ -32,7 +39,14 @@ public class DiffApplyer {
         System.out.println("executing " + cmd + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
         ProcessBuilder pb = new ProcessBuilder(cmd,arg1,arg2,arg3,arg4)
                 .redirectErrorStream(true);
+        pb.inheritIO();
         execute(pb);
+        if(new File(target.getAbsolutePath() + ".rej").exists()){
+            System.err.println("Houston we have a problem...");
+            return false;
+        } else{
+            return true;
+        }
     }
 
 }

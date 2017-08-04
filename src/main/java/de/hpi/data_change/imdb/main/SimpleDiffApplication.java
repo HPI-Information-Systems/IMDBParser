@@ -13,6 +13,6 @@ public class SimpleDiffApplication {
         File diffFile = new File(args[1]);
         File targetFile = new File(args[2]);
         DiffApplyer applyer = new DiffApplyer();
-        applyer.applyDiffForwards(original,diffFile,targetFile);
+        applyer.applyDiffBackwards(original,diffFile,targetFile);
     }
 }

@@ -16,7 +16,7 @@ import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
  */
 public class DirectorsReader {
 
-    private DirectorsAggregator listener = new DirectorsAggregator();
+    private DirectorsAggregator listener;
 
 
     public void parseText(File file) throws IOException {
@@ -29,6 +29,7 @@ public class DirectorsReader {
     }
 
     private void parseInputStream(InputStream is) throws IOException {
+        listener = new DirectorsAggregator();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, IOConstants.ENCODING)); //TODO: how do we know it is UTF8?
         CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
         DirectorsLexer lex = new DirectorsLexer(input);

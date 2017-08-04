@@ -1,5 +1,7 @@
 package de.hpi.data_change.data;
 
+import de.hpi.data_change.imdb.IOConstants;
+
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +10,6 @@ public class Property {
 
     private String name;
     private String value;
-    private static DateTimeFormatter changeDBFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd[ HH:mm:ss.SSSSSS]");
 
     public Property(String name, String value) {
         this.name = name;
@@ -46,10 +47,10 @@ public class Property {
     }
 
     public void writeln(PrintWriter writer, LocalDate timestamp, String entityName) {
-        writer.println("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(changeDBFormatter));
+        writer.println("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(IOConstants.changeDBFormatter));
     }
 
     public void write(PrintWriter writer, LocalDate timestamp, String entityName) {
-        writer.write("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(changeDBFormatter));
+        writer.write("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(IOConstants.changeDBFormatter));
     }
 }
