@@ -1,6 +1,8 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.IOConstants;
+import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
@@ -8,19 +10,25 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.*;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class DirectorsReader {
+public class DirectorsFileParser extends IMDBFileParser {
 
     private DirectorsAggregator listener;
 
 
     public void parseText(File file) throws IOException {
         parseInputStream(new FileInputStream(file));
+    }
+
+    @Override
+    public Stream<Entity> getEntities() {
+        return getDirectors().stream().map(d -> d.toEntity());
     }
 
     public void parseGZ(File gzfile) throws IOException {

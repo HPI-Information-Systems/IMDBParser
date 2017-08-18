@@ -16,7 +16,7 @@ class EntityCollectionTest {
     private static LocalDate timestamp2 = LocalDate.of(2017, 7, 28);
 
     @Test
-    void appendChanges() throws FileNotFoundException {
+    void appendChanges() throws IOException {
         File testOut = new File("resources/testOutput/EntityCollectionChangeTest.txt");
         testOut.delete();
         //old collection 1:

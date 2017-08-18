@@ -6,28 +6,20 @@ import java.util.List;
 /**
  * Created by Leon.Bornemann on 7/18/2017.
  */
-public class TVShow extends Video {
+public class TVShow extends VideoWithDateRange {
 
-    private Year endYear;
 
     public TVShow(String titleString, Year year, List<String> extraTokens) {
         super(titleString,year,extraTokens);
-        this.endYear = null;
     }
 
     public TVShow(String titleString, Year startYear, Year endYear, List<String> extraTokens) {
-        super(titleString,startYear,extraTokens);
-        this.endYear = endYear;
-    }
-
-    public boolean hasYearRange(){
-        return this.endYear !=null;
+        super(titleString,startYear,endYear,extraTokens);
     }
 
     @Override
     protected VideoType getType() {
         return VideoType.Series;
     }
-
 
 }

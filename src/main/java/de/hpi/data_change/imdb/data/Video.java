@@ -1,6 +1,10 @@
 package de.hpi.data_change.imdb.data;
 
+import de.hpi.data_change.data.Entity;
+import de.hpi.data_change.data.Property;
+
 import java.time.Year;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,7 +24,7 @@ public abstract class Video {
     }
 
     public static Video createFromTokens(String titleString, String yearString, List<String> extraTokens) {
-        if(titleString.startsWith("\"")){
+        if(titleString.startsWith("\"")|| titleString.endsWith("(TV)")){
             //assert(titleString.charAt(titleString.lastIndexOf('\"')+1) == ' ');
             if(titleString.contains("{")){
                 if(yearString.indexOf('-')!=-1){
@@ -62,4 +66,6 @@ public abstract class Video {
                 ", extraTokens=" + extraTokens +
                 '}';
     }
+
+    public abstract Entity toEntity();
 }

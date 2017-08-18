@@ -6,17 +6,15 @@ import java.util.List;
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class TVEpisode extends Video {
+public class TVEpisode extends VideoWithDateRange {
 
-    private Year endYear;
 
     public TVEpisode(String title, Year year, List<String> extraTokens) {
         super(title, year, extraTokens);
     }
 
     public TVEpisode(String title, Year startYear, Year endYear, List<String> extraTokens) {
-        super(title,startYear,extraTokens);
-        this.endYear = endYear;
+        super(title,startYear,endYear,extraTokens);
     }
 
     public String getEpisodeName(){

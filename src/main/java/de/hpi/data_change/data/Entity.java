@@ -1,5 +1,8 @@
 package de.hpi.data_change.data;
 
+import org.apache.commons.csv.CSVPrinter;
+
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +45,13 @@ public class Entity {
     }
 
     public void writeToChangeFile(PrintWriter writer, LocalDate timestamp) {
+        for (int i=0;i<properties.size();i++) {
+            Property property = properties.get(i);
+            property.writeln(writer, timestamp, name);
+        }
+    }
+
+    public void writeToChangeFile(CSVPrinter writer, LocalDate timestamp) throws IOException {
         for (int i=0;i<properties.size();i++) {
             Property property = properties.get(i);
             property.writeln(writer, timestamp, name);

@@ -1,6 +1,9 @@
 package de.hpi.data_change.data;
 
 import de.hpi.data_change.imdb.IOConstants;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.QuoteMode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +30,6 @@ public class EntityCollection {
         //assert entity uniqueness:
         if(entities.size() !=this.entities.size()){
             logger.warn("Found dublicate entities, size of List: {} Size of Set: {}",entities.size(),this.entities.size());
-
         }
         //assert(entities.size() == this.entities.size());
     }
@@ -44,20 +46,26 @@ public class EntityCollection {
      */
     public void toIntitialChangeFile(File file) throws IOException {
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file),StandardCharsets.UTF_8));
-        entities.values().forEach( e -> e.writeToChangeFile(writer,timestamp));
-        writer.close();
+        CSVFormat format = CSVFormat.DEFAULT.withEscape('\\').withQuoteMode(QuoteMode.ALL);
+        CSVPrinter printer = new CSVPrinter(writer,format);
+        for (Entity entity : entities.values()) {
+            entity.writeToChangeFile(printer,timestamp);
+        }
+        printer.close();
     }
 
-    public void appendChanges(EntityCollection olderVersion,File file) throws FileNotFoundException {
+    public void appendChanges(EntityCollection olderVersion,File file) throws IOException {
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file,true),StandardCharsets.UTF_8));
-        insertNewEntities(olderVersion, writer);
-        handleDeletedEntities(olderVersion, writer);
+        CSVFormat format = CSVFormat.DEFAULT.withEscape('\\').withQuoteMode(QuoteMode.ALL);
+        CSVPrinter printer = new CSVPrinter(writer,format);
+        insertNewEntities(olderVersion, printer);
+        handleDeletedEntities(olderVersion, printer);
         //modified entity-property relationships:
-        handleEntityChanges(olderVersion, writer);
-        writer.close();
+        handleEntityChanges(olderVersion, printer);
+        printer.close();
     }
 
-    private void handleEntityChanges(EntityCollection olderVersion, PrintWriter writer) {
+    private void handleEntityChanges(EntityCollection olderVersion, CSVPrinter writer) throws IOException {
         Set<String> remainingEntityKeys = entities.keySet().stream()
                 .filter(k -> olderVersion.entities.keySet().contains(k))
                 .collect(Collectors.toSet());
@@ -85,27 +93,31 @@ public class EntityCollection {
         }
     }
 
-    private void handleDeletedEntities(EntityCollection olderVersion, PrintWriter writer) {
+    private void handleDeletedEntities(EntityCollection olderVersion, CSVPrinter writer) throws IOException {
         //TODO: how to handle this case? Entities getting deleted? --> for now we just delete all its properties
         Set<Entity> deletedEntities = olderVersion.entities.keySet().stream()
                 .filter(k -> !entities.keySet().contains(k))
                 .map(k -> olderVersion.entities.get(k))
                 .collect(Collectors.toSet());
         for (Entity deletedEntity : deletedEntities) {
-            deletedEntity.getProperties().stream()
-                .map(p -> new Property(p.getName(),IOConstants.NULL_REPRESENTATION))
-                .forEach(p -> p.writeln(writer,timestamp,deletedEntity.getName()));
+            List<Property> allProperties = deletedEntity.getProperties().stream()
+                    .map(p -> new Property(p.getName(), IOConstants.NULL_REPRESENTATION)).collect(Collectors.toList());
+            for (Property property : allProperties) {
+                property.writeln(writer,timestamp,deletedEntity.getName());
+            }
         }
     }
 
-    private void insertNewEntities(EntityCollection olderVersion, PrintWriter writer) {
+    private void insertNewEntities(EntityCollection olderVersion, CSVPrinter writer) throws IOException {
         Set<Entity> newEntities = entities.keySet().stream()
                 .filter(k -> !olderVersion.entities.keySet().contains(k))
                 .map(k -> entities.get(k))
                 .collect(Collectors.toSet());
         //append new entities to file:
         for (Entity newEntity : newEntities) {
-            newEntity.getProperties().forEach(p -> p.writeln(writer,timestamp,newEntity.getName()));
+            for (Property property : newEntity.getProperties()) {
+                property.writeln(writer,timestamp,newEntity.getName());
+            }
         }
     }
 

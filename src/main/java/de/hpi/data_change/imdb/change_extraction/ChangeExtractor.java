@@ -3,16 +3,15 @@ package de.hpi.data_change.imdb.change_extraction;
 import de.hpi.data_change.data.EntityCollection;
 import de.hpi.data_change.data.Diff;
 import de.hpi.data_change.imdb.IOConstants;
-import de.hpi.data_change.imdb.parsing.directors.DirectorsReader;
+import de.hpi.data_change.imdb.data.TableType;
+import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,29 +27,18 @@ public class ChangeExtractor {
     private final File originalFile;
     private final File diffDir;
     private boolean diffDirIsTemporary = false;
-    private String entityType;
+    private TableType tableType;
     private DiffApplyer diffApplyer = new DiffApplyer();
 
-    public ChangeExtractor(File originalFile, List<File> diffFiles, File targetDir,File diffDir) {
+    public ChangeExtractor(File originalFile, List<File> diffFiles, File targetDir,File diffDir,TableType tableType) {
         this.originalFile = originalFile;
         this.diffFiles = diffFiles;
         this.targetDir = targetDir;
         this.diffDir = diffDir;
-        entityType = originalFile.getName().split("\\.")[0];
-    }
-
-    public ChangeExtractor(File originalFile, List<File> diffFiles, File targetDir) throws IOException {
-        this.originalFile = originalFile;
-        this.diffFiles = diffFiles;
-        this.targetDir = targetDir;
-        this.diffDir = Files.createTempDirectory("temporary").toFile();
-        diffDir.deleteOnExit();
-        this.diffDirIsTemporary = true;
-        entityType = originalFile.getName().split("\\.")[0];
+        this.tableType = tableType;//originalFile.getName().split("\\.")[0];
     }
 
     public void extractChanges() throws IOException, InterruptedException {
-        String entityType = originalFile.getName().split("\\.")[0];
         List<Diff> diffs;
         if(diffFilesAreCompressed()) {
             System.out.println("launching decompression and extraction of diff files");
@@ -68,15 +56,14 @@ public class ChangeExtractor {
                     .map(f -> new Diff(f, toDate(f.getName())))
                     .collect(Collectors.toList());
         }
-        File source = extractChangesNew(diffs);
+        File source = extractChanges(diffs);
     }
 
     private boolean diffFilesAreCompressed() {
         return diffFiles.stream().map(f -> f.getName()).allMatch(fname -> fname.endsWith(".gz"));
     }
 
-    private File extractChangesNew(List<Diff> diffs) throws IOException, InterruptedException {
-        DirectorsReader directorsReader = new DirectorsReader();
+    private File extractChanges(List<Diff> diffs) throws IOException, InterruptedException {
         logger.info("Starting to extract changes");
         List<Diff> diffsOrdered = diffs.stream()
                 .sorted((d1, d2) -> d2.getTimestamp().compareTo(d1.getTimestamp()))
@@ -103,9 +90,9 @@ public class ChangeExtractor {
             //extract changes
             logger.info("Starting to extract changes");
             //TODO: timestamp problems...
-            EntityCollection laterVersion = parseFile(directorsReader, source, prevTimestamp);
-            EntityCollection earlierVersion = parseFile(directorsReader, target, diffFile.getTimestamp());
-            File changeFile = new File(targetDir, IOConstants.toChangeDBStringFormat(diffFile.getTimestamp()) + "changes.csv");
+            EntityCollection laterVersion = parseFile(source, prevTimestamp);
+            EntityCollection earlierVersion = parseFile(target, diffFile.getTimestamp());
+            File changeFile = new File(targetDir, IOConstants.toChangeDBStringFormat(diffFile.getTimestamp()) + "_" + tableType  +"_changes.csv");
             laterVersion.appendChanges(earlierVersion,changeFile);
             logger.info("Finished extracting changes");
             source = target;
@@ -118,14 +105,15 @@ public class ChangeExtractor {
         return source;
     }
 
-    private EntityCollection parseFile(DirectorsReader directorsReader, File source, LocalDate timestamp) throws IOException {
+    private EntityCollection parseFile(File source, LocalDate timestamp) throws IOException {
+        IMDBFileParser parser = IMDBFileParser.createParser(tableType);
         if(source.getName().endsWith(".gz")) {
-            directorsReader.parseGZ(source);
+            parser.parseGZ(source);
         } else{
             assert(source.getName().endsWith(".list"));
-            directorsReader.parseText(source);
+            parser.parseText(source);
         }
-        return new EntityCollection(directorsReader.getDirectors().stream().map(d -> d.toEntity()), timestamp);
+        return new EntityCollection(parser.getEntities(), timestamp);
     }
 
     private LocalDate toDate(String name) {

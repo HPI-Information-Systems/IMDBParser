@@ -1,17 +1,21 @@
 package de.hpi.data_change.imdb.parsing.movies;
 
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.IOConstants;
 import de.hpi.data_change.imdb.data.Video;
+import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 /**
  * Created by Leon.Bornemann on 7/18/2017.
+ * The only manually created Parser before I decided to use ANTLR to generate Parsers for the different files of IMDB.
  */
-public class IMDBMovieListParser {
+public class MovieFileParser extends IMDBFileParser{
 
     private int beginCount = 11;
     private char beginChar = '=';
@@ -19,14 +23,27 @@ public class IMDBMovieListParser {
     private int endCount = 20;
 
     private LexerState state = LexerState.FIND_START;
-    private List<Video> movies = new ArrayList<>();
+    private List<Video> videos = new ArrayList<>();
     private List<String> malFormattedLines = new ArrayList<>();
 
-    public IMDBMovieListParser() {
+
+    @Override
+    public void parseGZ(File source) throws IOException {
+        GZIPInputStream is = new GZIPInputStream(new FileInputStream(source));
+        parseFile(is);
     }
 
-    public void parseFile(String fullPath) throws IOException {
-        GZIPInputStream is = new GZIPInputStream(new FileInputStream(fullPath));
+    @Override
+    public void parseText(File source) throws IOException {
+        parseFile(new FileInputStream(source));
+    }
+
+    @Override
+    public Stream<Entity> getEntities() {
+       return  videos.stream().map(m -> m.toEntity());
+    }
+
+    public void parseFile(InputStream is) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is, IOConstants.ENCODING)); //TODO: lets hope this is UTF8 - how do we determine that?
         String line = br.readLine();
         while(line !=null){
@@ -68,13 +85,13 @@ public class IMDBMovieListParser {
         if(tokens.length<2){
             malFormattedLines.add(line);
         } else {
-            movies.add(Video.createFromTokens(tokens[0],tokens[1],extraTokens));
+            videos.add(Video.createFromTokens(tokens[0],tokens[1],extraTokens));
         }
     }
 
 
     public void print() {
-        movies.stream().limit(1000).forEach( m -> System.out.println(m));
+        videos.stream().limit(1000).forEach(m -> System.out.println(m));
         System.out.println("-------------------------------------------------------");
         System.out.println("Malformatted lines:");
         malFormattedLines.forEach(l -> System.out.println(l));

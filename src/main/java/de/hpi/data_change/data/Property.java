@@ -1,10 +1,11 @@
 package de.hpi.data_change.data;
 
 import de.hpi.data_change.imdb.IOConstants;
+import org.apache.commons.csv.CSVPrinter;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Property {
 
@@ -49,6 +50,14 @@ public class Property {
     public void writeln(PrintWriter writer, LocalDate timestamp, String entityName) {
         writer.println("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(IOConstants.changeDBFormatter));
     }
+
+    public void writeln(CSVPrinter writer, LocalDate timestamp, String entityName) throws IOException {
+        writer.printRecord(entityName, name, value,timestamp.format(IOConstants.changeDBFormatter));
+    }
+
+    //private String escapeString(String entityName) {
+    //    return entityName.replaceAll("\\\\","\\\\\\\\").replaceAll("\\\"","\\\\\\\""); //sometimes java regexes require an enourmous amount of escape chars...
+   // }
 
     public void write(PrintWriter writer, LocalDate timestamp, String entityName) {
         writer.write("\"" + entityName +"\"" + "," + "\"" +name +"\"" + "," + "\"" + value + "\"" + "," + timestamp.format(IOConstants.changeDBFormatter));

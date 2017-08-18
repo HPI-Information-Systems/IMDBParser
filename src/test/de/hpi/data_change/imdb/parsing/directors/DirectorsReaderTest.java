@@ -17,7 +17,7 @@ class DirectorsReaderTest {
 
     @Test
     public void testDirectorsReader() throws IOException {
-        DirectorsReader reader = new DirectorsReader();
+        DirectorsFileParser reader = new DirectorsFileParser();
         reader.parseText(new File("resources/testData/directorTest.txt"));
         List<Director> result = reader.getDirectors();
         assertEquals(new Director("&OumlZkahraman, Ender", Arrays.asList("Ugly Duckling (2017)")),result.get(0));
