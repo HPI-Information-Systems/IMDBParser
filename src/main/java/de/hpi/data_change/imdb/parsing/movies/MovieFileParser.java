@@ -2,7 +2,7 @@ package de.hpi.data_change.imdb.parsing.movies;
 
 import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.IOConstants;
-import de.hpi.data_change.imdb.data.Video;
+import de.hpi.data_change.imdb.data.videos.Video;
 import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 
 import java.io.*;
@@ -15,7 +15,7 @@ import java.util.zip.GZIPInputStream;
  * Created by Leon.Bornemann on 7/18/2017.
  * The only manually created Parser before I decided to use ANTLR to generate Parsers for the different files of IMDB.
  */
-public class MovieFileParser extends IMDBFileParser{
+public class MovieFileParser implements IMDBFileParser {
 
     private int beginCount = 11;
     private char beginChar = '=';

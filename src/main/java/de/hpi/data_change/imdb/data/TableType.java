@@ -1,5 +1,5 @@
 package de.hpi.data_change.imdb.data;
 
 public enum TableType {
-    Directors,Movies
+    Directors, Ratings, Editors, Movies, Actor, Actress
 }

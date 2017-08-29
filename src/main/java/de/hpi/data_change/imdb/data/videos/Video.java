@@ -1,10 +1,8 @@
-package de.hpi.data_change.imdb.data;
+package de.hpi.data_change.imdb.data.videos;
 
 import de.hpi.data_change.data.Entity;
-import de.hpi.data_change.data.Property;
 
 import java.time.Year;
-import java.util.Arrays;
 import java.util.List;
 
 /**

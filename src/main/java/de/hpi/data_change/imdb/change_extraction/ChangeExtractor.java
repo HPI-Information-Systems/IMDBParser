@@ -4,6 +4,7 @@ import de.hpi.data_change.data.EntityCollection;
 import de.hpi.data_change.data.Diff;
 import de.hpi.data_change.imdb.IOConstants;
 import de.hpi.data_change.imdb.data.TableType;
+import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -106,7 +107,7 @@ public class ChangeExtractor {
     }
 
     private EntityCollection parseFile(File source, LocalDate timestamp) throws IOException {
-        IMDBFileParser parser = IMDBFileParser.createParser(tableType);
+        IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(tableType);
         if(source.getName().endsWith(".gz")) {
             parser.parseGZ(source);
         } else{

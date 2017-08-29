@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,7 @@ class DirectorsReaderTest {
     public void testDirectorsReader() throws IOException {
         DirectorsFileParser reader = new DirectorsFileParser();
         reader.parseText(new File("resources/testData/directorTest.txt"));
-        List<Director> result = reader.getDirectors();
+        List<Director> result = new ArrayList<>(reader.getResults());
         assertEquals(new Director("&OumlZkahraman, Ender", Arrays.asList("Ugly Duckling (2017)")),result.get(0));
         assertEquals(new Director("'s-Gravesande, Pjotr",
                 Arrays.asList("Editors: The Back Room (Festival Edition) (2005) (V)",

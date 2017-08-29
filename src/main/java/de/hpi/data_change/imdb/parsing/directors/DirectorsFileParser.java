@@ -1,65 +1,51 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
-import de.hpi.data_change.data.Entity;
-import de.hpi.data_change.imdb.IOConstants;
-import de.hpi.data_change.imdb.parsing.IMDBFileParser;
+import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.*;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
+import java.util.Collection;
+
 import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class DirectorsFileParser extends IMDBFileParser {
+public class DirectorsFileParser extends IMDBFileANTLRGeneratedParser<DirectorsParser,Director> {
 
     private DirectorsAggregator listener;
 
 
-    public void parseText(File file) throws IOException {
-        parseInputStream(new FileInputStream(file));
-    }
-
     @Override
-    public Stream<Entity> getEntities() {
-        return getDirectors().stream().map(d -> d.toEntity());
-    }
-
-    public void parseGZ(File gzfile) throws IOException {
-        GZIPInputStream is = new GZIPInputStream(new FileInputStream(gzfile));
-        parseInputStream(is);
-    }
-
-    private void parseInputStream(InputStream is) throws IOException {
-        listener = new DirectorsAggregator();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, IOConstants.ENCODING)); //TODO: how do we know it is UTF8?
-        CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
-        DirectorsLexer lex = new DirectorsLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
-        DirectorsParser parser = new DirectorsParser(tokens); // transforms tokens into parse trees
-        parser.addParseListener(listener);
-        ParseTree t = parser.r(); // creates the parse tree from the called rule
-    }
-
-    public void printResult() {
-        listener.getResult().forEach(d -> System.out.println(d));
-    }
-
-    public List<Director> getDirectors() {
+    protected Collection<Director> getResults() {
         return listener.getResult();
     }
 
-    /*
-    ANTLRFileStream input = new ANTLRFileStream(fileName); // a character stream
-JayLexer lex = new JayLexer(input); // transforms characters into tokens
-CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
-JayParser parser = new JayParser(tokens); // transforms tokens into parse trees
-ParseTree t = parser.your_first_rule_name(); // creates the parse tree from the called rule
-     */
+    @Override
+    protected ParseTreeListener getListener() {
+        return listener;
+    }
+
+    @Override
+    protected ParseTree invokeStartRule(DirectorsParser parser) {
+        return parser.r();
+    }
+
+    @Override
+    protected DirectorsParser initParser(CommonTokenStream tokens) {
+        return new DirectorsParser(tokens);
+    }
+
+    @Override
+    protected Lexer initLexer(CharStream input) {
+        return new DirectorsLexer(input);
+    }
+
+    @Override
+    protected void initListener() {
+        listener = new DirectorsAggregator();
+    }
 }
