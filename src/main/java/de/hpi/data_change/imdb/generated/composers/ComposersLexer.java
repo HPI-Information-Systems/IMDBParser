@@ -1,5 +1,5 @@
-// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources/grammars\Actors.g4 by ANTLR 4.7
-package de.hpi.data_change.imdb.generated.actors;
+// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources/grammars\Composers.g4 by ANTLR 4.7
+package de.hpi.data_change.imdb.generated.composers;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class ActorsLexer extends Lexer {
+public class ComposersLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -69,13 +69,13 @@ public class ActorsLexer extends Lexer {
 	}
 
 
-	public ActorsLexer(CharStream input) {
+	public ComposersLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Actors.g4"; }
+	public String getGrammarFileName() { return "Composers.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -95,83 +95,61 @@ public class ActorsLexer extends Lexer {
 	@Override
 	public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
 		switch (ruleIndex) {
-		case 0:
-			SEP_action((RuleContext)_localctx, actionIndex);
-			break;
 		case 1:
 			STARTSIGNAL_action((RuleContext)_localctx, actionIndex);
 			break;
 		case 2:
 			ENDSIGNAL_action((RuleContext)_localctx, actionIndex);
 			break;
-		case 3:
-			NEWLINE_action((RuleContext)_localctx, actionIndex);
-			break;
-		}
-	}
-	private void SEP_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 0:
-			System.out.println("Matched SEP");
-			break;
 		}
 	}
 	private void STARTSIGNAL_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 1:
+		case 0:
 			System.out.println("Matched STARTSIGNAL");
 			break;
 		}
 	}
 	private void ENDSIGNAL_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 2:
+		case 1:
 			System.out.println("Matched ENDSIGNAL");
-			break;
-		}
-	}
-	private void NEWLINE_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 3:
-			System.out.println("Matched  Newline");
 			break;
 		}
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\7\u008b\b\1\4\2\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\7\u0086\b\1\4\2\t"+
 		"\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\6\2\23\n\2\r\2"+
-		"\16\2\24\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\16\2\24\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\5"+
-		"\3\5\5\5\177\n\5\3\5\3\5\3\6\6\6\u0084\n\6\r\6\16\6\u0085\3\7\3\7\3\b"+
-		"\3\b\2\2\t\3\3\5\4\7\5\t\6\13\7\r\2\17\2\3\2\3\3\2\13\f\2\u008b\2\3\3"+
-		"\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\3\22\3\2\2\2\5"+
-		"\30\3\2\2\2\7*\3\2\2\2\t|\3\2\2\2\13\u0083\3\2\2\2\r\u0087\3\2\2\2\17"+
-		"\u0089\3\2\2\2\21\23\5\17\b\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2"+
-		"\2\24\25\3\2\2\2\25\26\3\2\2\2\26\27\b\2\2\2\27\4\3\2\2\2\30\31\7/\2\2"+
-		"\31\32\7/\2\2\32\33\7/\2\2\33\34\7/\2\2\34\35\7\13\2\2\35\36\7\13\2\2"+
-		"\36\37\7\13\2\2\37 \7/\2\2 !\7/\2\2!\"\7/\2\2\"#\7/\2\2#$\7/\2\2$%\7/"+
-		"\2\2%&\3\2\2\2&\'\5\r\7\2\'(\5\r\7\2()\b\3\3\2)\6\3\2\2\2*+\7/\2\2+,\7"+
-		"/\2\2,-\7/\2\2-.\7/\2\2./\7/\2\2/\60\7/\2\2\60\61\7/\2\2\61\62\7/\2\2"+
-		"\62\63\7/\2\2\63\64\7/\2\2\64\65\7/\2\2\65\66\7/\2\2\66\67\7/\2\2\678"+
-		"\7/\2\289\7/\2\29:\7/\2\2:;\7/\2\2;<\7/\2\2<=\7/\2\2=>\7/\2\2>?\7/\2\2"+
-		"?@\7/\2\2@A\7/\2\2AB\7/\2\2BC\7/\2\2CD\7/\2\2DE\7/\2\2EF\7/\2\2FG\7/\2"+
-		"\2GH\7/\2\2HI\7/\2\2IJ\7/\2\2JK\7/\2\2KL\7/\2\2LM\7/\2\2MN\7/\2\2NO\7"+
-		"/\2\2OP\7/\2\2PQ\7/\2\2QR\7/\2\2RS\7/\2\2ST\7/\2\2TU\7/\2\2UV\7/\2\2V"+
-		"W\7/\2\2WX\7/\2\2XY\7/\2\2YZ\7/\2\2Z[\7/\2\2[\\\7/\2\2\\]\7/\2\2]^\7/"+
-		"\2\2^_\7/\2\2_`\7/\2\2`a\7/\2\2ab\7/\2\2bc\7/\2\2cd\7/\2\2de\7/\2\2ef"+
-		"\7/\2\2fg\7/\2\2gh\7/\2\2hi\7/\2\2ij\7/\2\2jk\7/\2\2kl\7/\2\2lm\7/\2\2"+
-		"mn\7/\2\2no\7/\2\2op\7/\2\2pq\7/\2\2qr\7/\2\2rs\7/\2\2st\7/\2\2tu\7/\2"+
-		"\2uv\7/\2\2vw\7/\2\2wx\3\2\2\2xy\5\r\7\2yz\5\r\7\2z{\b\4\4\2{\b\3\2\2"+
-		"\2|~\5\r\7\2}\177\5\r\7\2~}\3\2\2\2~\177\3\2\2\2\177\u0080\3\2\2\2\u0080"+
-		"\u0081\b\5\5\2\u0081\n\3\2\2\2\u0082\u0084\n\2\2\2\u0083\u0082\3\2\2\2"+
-		"\u0084\u0085\3\2\2\2\u0085\u0083\3\2\2\2\u0085\u0086\3\2\2\2\u0086\f\3"+
-		"\2\2\2\u0087\u0088\7\f\2\2\u0088\16\3\2\2\2\u0089\u008a\7\13\2\2\u008a"+
-		"\20\3\2\2\2\6\2\24~\u0085\6\3\2\2\3\3\3\3\4\4\3\5\5";
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\6\6\6|\n"+
+		"\6\r\6\16\6}\3\7\3\7\3\7\5\7\u0083\n\7\3\b\3\b\2\2\t\3\3\5\4\7\5\t\6\13"+
+		"\7\r\2\17\2\3\2\4\4\2\13\f\17\17\4\2\f\f\17\17\2\u0086\2\3\3\2\2\2\2\5"+
+		"\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\3\22\3\2\2\2\5\26\3\2\2"+
+		"\2\7\'\3\2\2\2\tx\3\2\2\2\13{\3\2\2\2\r\u0082\3\2\2\2\17\u0084\3\2\2\2"+
+		"\21\23\5\17\b\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2"+
+		"\2\25\4\3\2\2\2\26\27\7/\2\2\27\30\7/\2\2\30\31\7/\2\2\31\32\7/\2\2\32"+
+		"\33\7\13\2\2\33\34\7\13\2\2\34\35\7\13\2\2\35\36\7/\2\2\36\37\7/\2\2\37"+
+		" \7/\2\2 !\7/\2\2!\"\7/\2\2\"#\7/\2\2#$\3\2\2\2$%\5\r\7\2%&\b\3\2\2&\6"+
+		"\3\2\2\2\'(\7/\2\2()\7/\2\2)*\7/\2\2*+\7/\2\2+,\7/\2\2,-\7/\2\2-.\7/\2"+
+		"\2./\7/\2\2/\60\7/\2\2\60\61\7/\2\2\61\62\7/\2\2\62\63\7/\2\2\63\64\7"+
+		"/\2\2\64\65\7/\2\2\65\66\7/\2\2\66\67\7/\2\2\678\7/\2\289\7/\2\29:\7/"+
+		"\2\2:;\7/\2\2;<\7/\2\2<=\7/\2\2=>\7/\2\2>?\7/\2\2?@\7/\2\2@A\7/\2\2AB"+
+		"\7/\2\2BC\7/\2\2CD\7/\2\2DE\7/\2\2EF\7/\2\2FG\7/\2\2GH\7/\2\2HI\7/\2\2"+
+		"IJ\7/\2\2JK\7/\2\2KL\7/\2\2LM\7/\2\2MN\7/\2\2NO\7/\2\2OP\7/\2\2PQ\7/\2"+
+		"\2QR\7/\2\2RS\7/\2\2ST\7/\2\2TU\7/\2\2UV\7/\2\2VW\7/\2\2WX\7/\2\2XY\7"+
+		"/\2\2YZ\7/\2\2Z[\7/\2\2[\\\7/\2\2\\]\7/\2\2]^\7/\2\2^_\7/\2\2_`\7/\2\2"+
+		"`a\7/\2\2ab\7/\2\2bc\7/\2\2cd\7/\2\2de\7/\2\2ef\7/\2\2fg\7/\2\2gh\7/\2"+
+		"\2hi\7/\2\2ij\7/\2\2jk\7/\2\2kl\7/\2\2lm\7/\2\2mn\7/\2\2no\7/\2\2op\7"+
+		"/\2\2pq\7/\2\2qr\7/\2\2rs\7/\2\2st\7/\2\2tu\3\2\2\2uv\5\r\7\2vw\b\4\3"+
+		"\2w\b\3\2\2\2xy\5\r\7\2y\n\3\2\2\2z|\n\2\2\2{z\3\2\2\2|}\3\2\2\2}{\3\2"+
+		"\2\2}~\3\2\2\2~\f\3\2\2\2\177\u0083\t\3\2\2\u0080\u0081\7\17\2\2\u0081"+
+		"\u0083\7\f\2\2\u0082\177\3\2\2\2\u0082\u0080\3\2\2\2\u0083\16\3\2\2\2"+
+		"\u0084\u0085\7\13\2\2\u0085\20\3\2\2\2\6\2\24}\u0082\4\3\3\2\3\4\3";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

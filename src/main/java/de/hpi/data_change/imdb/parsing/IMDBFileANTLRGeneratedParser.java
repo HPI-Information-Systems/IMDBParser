@@ -5,6 +5,8 @@ import de.hpi.data_change.imdb.IOConstants;
 import de.hpi.data_change.imdb.data.CustomEntity;
 import de.hpi.data_change.imdb.data.TableType;
 import de.hpi.data_change.imdb.parsing.actors.ActorsFileParser;
+import de.hpi.data_change.imdb.parsing.composers.ComposersFileParser;
+import de.hpi.data_change.imdb.parsing.countries.CountriesFileParser;
 import de.hpi.data_change.imdb.parsing.directors.DirectorsFileParser;
 import de.hpi.data_change.imdb.parsing.editors.EditorsFileParser;
 import de.hpi.data_change.imdb.parsing.movies.MovieFileParser;
@@ -28,6 +30,8 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
             case Editors: return new EditorsFileParser();
             case Actor: return new ActorsFileParser();
             case Actress: return new ActorsFileParser();
+            case Composer: return new ComposersFileParser();
+            case Country: return new CountriesFileParser();
             default: throw new AssertionError("unknown table type specified");
         }
     }

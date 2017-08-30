@@ -7,7 +7,7 @@ r  : anythingButStart
     anyLineOrEOF
 ;
 anythingButStart: ( anyline | ENDSIGNAL )* {System.out.println("Matched Anything but start");};
-anyline : (ANYTHING|SEP)* NEWLINE;
+anyline : (ANYTHING|SEP)* NEWLINE {System.out.println("Matched Anyline");};
 anyLineOrEOF: (ANYTHING|SEP)* (NEWLINE |EOF);
 actorList : (actorAndWork ) *;
 actorAndWork: actorName SEP workList NEWLINE;
@@ -15,11 +15,14 @@ actorName : ANYTHING;
 workList: workElement+;
 workElement: SEP? ANYTHING NEWLINE ;
 
-SEP : TAB+;
-STARTSIGNAL : '----			------' NL {System.out.println("Matched STARTSIGNAL");};
-ENDSIGNAL : '-----------------------------------------------------------------------------' NL {System.out.println("Matched ENDSIGNAL");};
-NEWLINE : NL ;
-ANYTHING: ~[\t\r\n]+;
+SEP : TAB+ {System.out.println("Matched SEP");};
+STARTSIGNAL : '----			------' NL NL {System.out.println("Matched STARTSIGNAL");};
+ENDSIGNAL : '-----------------------------------------------------------------------------' NL NL {System.out.println("Matched ENDSIGNAL");};
+NEWLINE : NL NL? {System.out.println("Matched  Newline");};
+//ANYTHING: (.)+? ;
+//ANYTHING: ('\u0000'..'\u0008' | '\u000B'..'\u000C' | '\u000E'..'\uFFFF')+ {System.out.println("Matched  Anything");};
+ANYTHING: ~[\t\n]+ ;
 
-fragment NL: '\n' | '\r\n';
+//fragment NL: '\r\n';
+fragment NL: '\n' ;
 fragment TAB: '\t';
