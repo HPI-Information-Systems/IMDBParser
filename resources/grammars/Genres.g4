@@ -1,21 +1,20 @@
-grammar Countries;
+grammar Genres;
 //r: anythingButStart | startSignal | anyline | country | anyLineOrEOF | countryName | title;
 
 r  : anythingButStart
     startSignal
-    {System.out.println("Starting Country parsing");} country* {System.out.println("Finished Country parsing");}
-    ENDSIGNAL
-    anyLineOrEOF;
+    {System.out.println("Starting Genre parsing");} genre* {System.out.println("Finished Genre parsing");}
+    EOF;
+
 anythingButStart: ( anyline | ENDSIGNAL )* ;
 startSignal: STARTSIGNAL ;
 anyline : (ANYTHING|SEP)* NEWLINE ;
-country: title SEP countryName NEWLINE ;
-anyLineOrEOF: (ANYTHING|SEP)* (NEWLINE |EOF);
-countryName: ANYTHING;
+genre: title SEP genreName NEWLINE ;
+genreName: ANYTHING;
 title: ANYTHING;
 
 SEP:TAB+;
-STARTSIGNAL : '==============' NL ;
+STARTSIGNAL : '8: THE GENRES LIST' NL '==================' NL NL;
 ENDSIGNAL : '--------------------------------------------------------------------------------' NL ;
 NEWLINE : NL ;
 ANYTHING: ~[\t\r\n]+ ;

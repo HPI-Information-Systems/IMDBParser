@@ -16,7 +16,7 @@ public class CountriesAggregator extends CountriesBaseListener {
     private List<Entity> entities = new ArrayList<>();
 
     @Override public void exitCountry(CountriesParser.CountryContext ctx) {
-        assert(ctx.getChildCount()==3);
+        assert(ctx.getChildCount()==4);
         entities.add(new Entity(ctx.getChild(0).getText(), Arrays.asList(new Property("country",ctx.getChild(2).getText()))));
     }
 

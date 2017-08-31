@@ -1,11 +1,11 @@
-package de.hpi.data_change.imdb.parsing.countries;
+package de.hpi.data_change.imdb.parsing.genres;
 
 import de.hpi.data_change.data.Entity;
-import de.hpi.data_change.imdb.data.Rating;
+import de.hpi.data_change.imdb.data.Genre;
 import de.hpi.data_change.imdb.generated.countries.CountriesLexer;
 import de.hpi.data_change.imdb.generated.countries.CountriesParser;
-import de.hpi.data_change.imdb.generated.ratings.RatingsLexer;
-import de.hpi.data_change.imdb.generated.ratings.RatingsParser;
+import de.hpi.data_change.imdb.generated.genres.GenresLexer;
+import de.hpi.data_change.imdb.generated.genres.GenresParser;
 import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -18,12 +18,12 @@ import java.util.Collection;
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class CountriesFileParser extends IMDBFileANTLRGeneratedParser<CountriesParser,Entity> {
+public class GenresFileParser extends IMDBFileANTLRGeneratedParser<GenresParser,Genre> {
 
-    private CountriesAggregator listener;
+    private GenresAggregator listener;
 
     @Override
-    protected Collection<Entity> getResults() {
+    protected Collection<Genre> getResults() {
         return listener.getResult();
     }
 
@@ -33,22 +33,22 @@ public class CountriesFileParser extends IMDBFileANTLRGeneratedParser<CountriesP
     }
 
     @Override
-    protected ParseTree invokeStartRule(CountriesParser parser) {
+    protected ParseTree invokeStartRule(GenresParser parser) {
         return parser.r();
     }
 
     @Override
-    protected CountriesParser initParser(CommonTokenStream tokens) {
-        return new CountriesParser(tokens);
+    protected GenresParser initParser(CommonTokenStream tokens) {
+        return new GenresParser(tokens);
     }
 
     @Override
     protected Lexer initLexer(CharStream input) {
-        return new CountriesLexer(input);
+        return new GenresLexer(input);
     }
 
     @Override
     protected void initListener() {
-        listener = new CountriesAggregator();
+        listener = new GenresAggregator();
     }
 }

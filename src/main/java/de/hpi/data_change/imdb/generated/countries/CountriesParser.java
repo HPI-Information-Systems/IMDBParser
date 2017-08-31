@@ -217,7 +217,6 @@ public class CountriesParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			System.out.println("Matched Anything but start");
 			}
 		}
 		catch (RecognitionException re) {
@@ -253,9 +252,8 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(36);
 			match(STARTSIGNAL);
-			System.out.println("Matched Startsignal");
 			}
 		}
 		catch (RecognitionException re) {
@@ -300,13 +298,13 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(41);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP || _la==ANYTHING) {
 				{
 				{
-				setState(41);
+				setState(38);
 				_la = _input.LA(1);
 				if ( !(_la==SEP || _la==ANYTHING) ) {
 				_errHandler.recoverInline(this);
@@ -318,13 +316,12 @@ public class CountriesParser extends Parser {
 				}
 				}
 				}
-				setState(46);
+				setState(43);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(47);
+			setState(44);
 			match(NEWLINE);
-			System.out.println("Matched Anyline");
 			}
 		}
 		catch (RecognitionException re) {
@@ -367,13 +364,13 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(46);
 			title();
-			setState(51);
+			setState(47);
 			match(SEP);
-			setState(52);
+			setState(48);
 			countryName();
-			setState(53);
+			setState(49);
 			match(NEWLINE);
 			}
 		}
@@ -420,13 +417,13 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
+			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP || _la==ANYTHING) {
 				{
 				{
-				setState(55);
+				setState(51);
 				_la = _input.LA(1);
 				if ( !(_la==SEP || _la==ANYTHING) ) {
 				_errHandler.recoverInline(this);
@@ -438,11 +435,11 @@ public class CountriesParser extends Parser {
 				}
 				}
 				}
-				setState(60);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(61);
+			setState(57);
 			_la = _input.LA(1);
 			if ( !(_la==EOF || _la==NEWLINE) ) {
 			_errHandler.recoverInline(this);
@@ -487,7 +484,7 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63);
+			setState(59);
 			match(ANYTHING);
 			}
 		}
@@ -524,7 +521,7 @@ public class CountriesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(61);
 			match(ANYTHING);
 			}
 		}
@@ -540,23 +537,22 @@ public class CountriesParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7F\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7B\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\7\2"+
 		"\27\n\2\f\2\16\2\32\13\2\3\2\3\2\3\2\3\2\3\3\3\3\7\3\"\n\3\f\3\16\3%\13"+
-		"\3\3\3\3\3\3\4\3\4\3\4\3\5\7\5-\n\5\f\5\16\5\60\13\5\3\5\3\5\3\5\3\6\3"+
-		"\6\3\6\3\6\3\6\3\7\7\7;\n\7\f\7\16\7>\13\7\3\7\3\7\3\b\3\b\3\t\3\t\3\t"+
-		"\2\2\n\2\4\6\b\n\f\16\20\2\4\4\2\3\3\7\7\3\3\6\6\2B\2\22\3\2\2\2\4#\3"+
-		"\2\2\2\6(\3\2\2\2\b.\3\2\2\2\n\64\3\2\2\2\f<\3\2\2\2\16A\3\2\2\2\20C\3"+
-		"\2\2\2\22\23\5\4\3\2\23\24\5\6\4\2\24\30\b\2\1\2\25\27\5\n\6\2\26\25\3"+
-		"\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\33\3\2\2\2\32\30\3"+
-		"\2\2\2\33\34\b\2\1\2\34\35\7\5\2\2\35\36\5\f\7\2\36\3\3\2\2\2\37\"\5\b"+
-		"\5\2 \"\7\5\2\2!\37\3\2\2\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$"+
-		"&\3\2\2\2%#\3\2\2\2&\'\b\3\1\2\'\5\3\2\2\2()\7\4\2\2)*\b\4\1\2*\7\3\2"+
-		"\2\2+-\t\2\2\2,+\3\2\2\2-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\61\3\2\2\2\60"+
-		".\3\2\2\2\61\62\7\6\2\2\62\63\b\5\1\2\63\t\3\2\2\2\64\65\5\20\t\2\65\66"+
-		"\7\3\2\2\66\67\5\16\b\2\678\7\6\2\28\13\3\2\2\29;\t\2\2\2:9\3\2\2\2;>"+
-		"\3\2\2\2<:\3\2\2\2<=\3\2\2\2=?\3\2\2\2><\3\2\2\2?@\t\3\2\2@\r\3\2\2\2"+
-		"AB\7\7\2\2B\17\3\2\2\2CD\7\7\2\2D\21\3\2\2\2\7\30!#.<";
+		"\3\3\4\3\4\3\5\7\5*\n\5\f\5\16\5-\13\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7"+
+		"\7\7\67\n\7\f\7\16\7:\13\7\3\7\3\7\3\b\3\b\3\t\3\t\3\t\2\2\n\2\4\6\b\n"+
+		"\f\16\20\2\4\4\2\3\3\7\7\3\3\6\6\2>\2\22\3\2\2\2\4#\3\2\2\2\6&\3\2\2\2"+
+		"\b+\3\2\2\2\n\60\3\2\2\2\f8\3\2\2\2\16=\3\2\2\2\20?\3\2\2\2\22\23\5\4"+
+		"\3\2\23\24\5\6\4\2\24\30\b\2\1\2\25\27\5\n\6\2\26\25\3\2\2\2\27\32\3\2"+
+		"\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\33\3\2\2\2\32\30\3\2\2\2\33\34\b\2"+
+		"\1\2\34\35\7\5\2\2\35\36\5\f\7\2\36\3\3\2\2\2\37\"\5\b\5\2 \"\7\5\2\2"+
+		"!\37\3\2\2\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$\5\3\2\2\2%#\3\2"+
+		"\2\2&\'\7\4\2\2\'\7\3\2\2\2(*\t\2\2\2)(\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,"+
+		"\3\2\2\2,.\3\2\2\2-+\3\2\2\2./\7\6\2\2/\t\3\2\2\2\60\61\5\20\t\2\61\62"+
+		"\7\3\2\2\62\63\5\16\b\2\63\64\7\6\2\2\64\13\3\2\2\2\65\67\t\2\2\2\66\65"+
+		"\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:8\3\2\2\2;<\t\3\2"+
+		"\2<\r\3\2\2\2=>\7\7\2\2>\17\3\2\2\2?@\7\7\2\2@\21\3\2\2\2\7\30!#+8";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

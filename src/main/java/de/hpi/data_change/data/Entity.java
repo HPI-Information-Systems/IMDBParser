@@ -11,8 +11,8 @@ import java.util.List;
 
 public class Entity implements CustomEntity {
 
-    private List<Property> properties;
     private String name;
+    private List<Property> properties;
 
     public Entity( String name,List<Property> properties) {
         this.properties = properties;
@@ -57,6 +57,14 @@ public class Entity implements CustomEntity {
             Property property = properties.get(i);
             property.writeln(writer, timestamp, name);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "name='" + name + '\'' +
+                ", properties=" + properties +
+                '}';
     }
 
     public boolean containsProperty(Property prop) {

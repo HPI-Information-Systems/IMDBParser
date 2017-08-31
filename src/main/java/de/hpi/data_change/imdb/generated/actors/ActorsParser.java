@@ -17,7 +17,7 @@ public class ActorsParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		SEP=1, STARTSIGNAL=2, ENDSIGNAL=3, NEWLINE=4, ANYTHING=5;
+		NEWLINE=1, STARTSIGNAL=2, SEP=3, ENDSIGNAL=4, ANYTHING=5;
 	public static final int
 		RULE_r = 0, RULE_anythingButStart = 1, RULE_anyline = 2, RULE_anyLineOrEOF = 3, 
 		RULE_actorList = 4, RULE_actorAndWork = 5, RULE_actorName = 6, RULE_workList = 7, 
@@ -30,7 +30,7 @@ public class ActorsParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "SEP", "STARTSIGNAL", "ENDSIGNAL", "NEWLINE", "ANYTHING"
+		null, "NEWLINE", "STARTSIGNAL", "SEP", "ENDSIGNAL", "ANYTHING"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -117,13 +117,14 @@ public class ActorsParser extends Parser {
 			anythingButStart();
 			setState(19);
 			match(STARTSIGNAL);
+			System.out.println("Matched Start Signal");
 			System.out.println("Starting actor/actress List parsing");
-			setState(21);
+			setState(22);
 			actorList();
 			System.out.println("Finished actor/actress List parsing");
-			setState(23);
-			match(ENDSIGNAL);
 			setState(24);
+			match(ENDSIGNAL);
+			setState(25);
 			anyLineOrEOF();
 			}
 		}
@@ -170,25 +171,25 @@ public class ActorsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
+			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SEP) | (1L << ENDSIGNAL) | (1L << NEWLINE) | (1L << ANYTHING))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEWLINE) | (1L << SEP) | (1L << ENDSIGNAL) | (1L << ANYTHING))) != 0)) {
 				{
-				setState(28);
+				setState(29);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case SEP:
 				case NEWLINE:
+				case SEP:
 				case ANYTHING:
 					{
-					setState(26);
+					setState(27);
 					anyline();
 					}
 					break;
 				case ENDSIGNAL:
 					{
-					setState(27);
+					setState(28);
 					match(ENDSIGNAL);
 					}
 					break;
@@ -196,7 +197,7 @@ public class ActorsParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(32);
+				setState(33);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -245,13 +246,13 @@ public class ActorsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(39);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP || _la==ANYTHING) {
 				{
 				{
-				setState(35);
+				setState(36);
 				_la = _input.LA(1);
 				if ( !(_la==SEP || _la==ANYTHING) ) {
 				_errHandler.recoverInline(this);
@@ -263,13 +264,12 @@ public class ActorsParser extends Parser {
 				}
 				}
 				}
-				setState(40);
+				setState(41);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(41);
+			setState(42);
 			match(NEWLINE);
-			System.out.println("Matched Anyline");
 			}
 		}
 		catch (RecognitionException re) {
@@ -612,23 +612,23 @@ public class ActorsParser extends Parser {
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7O\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\2"+
-		"\3\2\3\2\3\2\3\2\3\2\3\3\3\3\7\3\37\n\3\f\3\16\3\"\13\3\3\3\3\3\3\4\7"+
-		"\4\'\n\4\f\4\16\4*\13\4\3\4\3\4\3\4\3\5\7\5\60\n\5\f\5\16\5\63\13\5\3"+
-		"\5\3\5\3\6\7\68\n\6\f\6\16\6;\13\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\t\6\t"+
-		"E\n\t\r\t\16\tF\3\n\5\nJ\n\n\3\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20"+
-		"\22\2\4\4\2\3\3\7\7\3\3\6\6\2L\2\24\3\2\2\2\4 \3\2\2\2\6(\3\2\2\2\b\61"+
-		"\3\2\2\2\n9\3\2\2\2\f<\3\2\2\2\16A\3\2\2\2\20D\3\2\2\2\22I\3\2\2\2\24"+
-		"\25\5\4\3\2\25\26\7\4\2\2\26\27\b\2\1\2\27\30\5\n\6\2\30\31\b\2\1\2\31"+
-		"\32\7\5\2\2\32\33\5\b\5\2\33\3\3\2\2\2\34\37\5\6\4\2\35\37\7\5\2\2\36"+
-		"\34\3\2\2\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!#\3\2\2\2"+
-		"\" \3\2\2\2#$\b\3\1\2$\5\3\2\2\2%\'\t\2\2\2&%\3\2\2\2\'*\3\2\2\2(&\3\2"+
-		"\2\2()\3\2\2\2)+\3\2\2\2*(\3\2\2\2+,\7\6\2\2,-\b\4\1\2-\7\3\2\2\2.\60"+
-		"\t\2\2\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2"+
-		"\2\63\61\3\2\2\2\64\65\t\3\2\2\65\t\3\2\2\2\668\5\f\7\2\67\66\3\2\2\2"+
-		"8;\3\2\2\29\67\3\2\2\29:\3\2\2\2:\13\3\2\2\2;9\3\2\2\2<=\5\16\b\2=>\7"+
-		"\3\2\2>?\5\20\t\2?@\7\6\2\2@\r\3\2\2\2AB\7\7\2\2B\17\3\2\2\2CE\5\22\n"+
-		"\2DC\3\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2G\21\3\2\2\2HJ\7\3\2\2IH\3\2"+
-		"\2\2IJ\3\2\2\2JK\3\2\2\2KL\7\7\2\2LM\7\6\2\2M\23\3\2\2\2\t\36 (\619FI";
+		"\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3\3\3\3\3\4\7"+
+		"\4(\n\4\f\4\16\4+\13\4\3\4\3\4\3\5\7\5\60\n\5\f\5\16\5\63\13\5\3\5\3\5"+
+		"\3\6\7\68\n\6\f\6\16\6;\13\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\t\6\tE\n\t"+
+		"\r\t\16\tF\3\n\5\nJ\n\n\3\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2"+
+		"\4\4\2\5\5\7\7\3\3\3\3\2L\2\24\3\2\2\2\4!\3\2\2\2\6)\3\2\2\2\b\61\3\2"+
+		"\2\2\n9\3\2\2\2\f<\3\2\2\2\16A\3\2\2\2\20D\3\2\2\2\22I\3\2\2\2\24\25\5"+
+		"\4\3\2\25\26\7\4\2\2\26\27\b\2\1\2\27\30\b\2\1\2\30\31\5\n\6\2\31\32\b"+
+		"\2\1\2\32\33\7\6\2\2\33\34\5\b\5\2\34\3\3\2\2\2\35 \5\6\4\2\36 \7\6\2"+
+		"\2\37\35\3\2\2\2\37\36\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"$\3\2"+
+		"\2\2#!\3\2\2\2$%\b\3\1\2%\5\3\2\2\2&(\t\2\2\2\'&\3\2\2\2(+\3\2\2\2)\'"+
+		"\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\3\2\2-\7\3\2\2\2.\60\t\2\2"+
+		"\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63"+
+		"\61\3\2\2\2\64\65\t\3\2\2\65\t\3\2\2\2\668\5\f\7\2\67\66\3\2\2\28;\3\2"+
+		"\2\29\67\3\2\2\29:\3\2\2\2:\13\3\2\2\2;9\3\2\2\2<=\5\16\b\2=>\7\5\2\2"+
+		">?\5\20\t\2?@\7\3\2\2@\r\3\2\2\2AB\7\7\2\2B\17\3\2\2\2CE\5\22\n\2DC\3"+
+		"\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2G\21\3\2\2\2HJ\7\5\2\2IH\3\2\2\2I"+
+		"J\3\2\2\2JK\3\2\2\2KL\7\7\2\2LM\7\3\2\2M\23\3\2\2\2\t\37!)\619FI";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
