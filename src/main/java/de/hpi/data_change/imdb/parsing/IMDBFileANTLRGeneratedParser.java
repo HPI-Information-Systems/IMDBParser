@@ -7,6 +7,7 @@ import de.hpi.data_change.imdb.data.TableType;
 import de.hpi.data_change.imdb.parsing.actors.ActorsFileParser;
 import de.hpi.data_change.imdb.parsing.directors.DirectorsFileParser;
 import de.hpi.data_change.imdb.parsing.editors.EditorsFileParser;
+import de.hpi.data_change.imdb.parsing.locations.LocationsFileParser;
 import de.hpi.data_change.imdb.parsing.movies.MovieFileParser;
 import de.hpi.data_change.imdb.parsing.ratings.RatingsFileParser;
 import org.antlr.v4.runtime.*;
@@ -28,6 +29,7 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
             case Editors: return new EditorsFileParser();
             case Actor: return new ActorsFileParser();
             case Actress: return new ActorsFileParser();
+            case Location: return new LocationsFileParser();
             default: throw new AssertionError("unknown table type specified");
         }
     }
