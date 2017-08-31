@@ -6,13 +6,12 @@ import de.hpi.data_change.data.Property;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractCreativePerson implements CustomEntity{
+public abstract class MultiPropertyEntity implements CustomEntity{
 
-    private static final String PROPERTY_NAME = "works";
     private String name;
     private List<String> workTitles;
 
-    public AbstractCreativePerson(String name, List<String> workTitles) {
+    public MultiPropertyEntity(String name, List<String> workTitles) {
         this.name = name;
         this.workTitles = workTitles;
     }
@@ -32,7 +31,7 @@ public abstract class AbstractCreativePerson implements CustomEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractCreativePerson other = (AbstractCreativePerson) o;
+        MultiPropertyEntity other = (MultiPropertyEntity) o;
 
         if (name != null ? !name.equals(other.name) : other.name != null) return false;
         return workTitles != null ? workTitles.equals(other.workTitles) : other.workTitles == null;
@@ -62,6 +61,10 @@ public abstract class AbstractCreativePerson implements CustomEntity{
             }
         }
         builder.append("]");
-        return Arrays.asList(new Property(PROPERTY_NAME,builder.toString()));
+        return Arrays.asList(new Property(getPropertyName(),builder.toString()));
+    }
+
+    protected String getPropertyName() {
+        return "works";
     }
 }

@@ -1,5 +1,6 @@
 package de.hpi.data_change.data;
 
+import de.hpi.data_change.imdb.data.CustomEntity;
 import org.apache.commons.csv.CSVPrinter;
 
 import java.io.IOException;
@@ -8,10 +9,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class Entity {
+public class Entity implements CustomEntity {
 
-    private List<Property> properties;
     private String name;
+    private List<Property> properties;
 
     public Entity( String name,List<Property> properties) {
         this.properties = properties;
@@ -58,7 +59,21 @@ public class Entity {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "name='" + name + '\'' +
+                ", properties=" + properties +
+                '}';
+    }
+
     public boolean containsProperty(Property prop) {
         return properties.contains(prop);
+    }
+
+    //convenience implementation of interface so parsers can use raw entities
+    @Override
+    public Entity toEntity() {
+        return this;
     }
 }

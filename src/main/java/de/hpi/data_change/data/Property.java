@@ -55,6 +55,14 @@ public class Property {
         writer.printRecord(entityName, name, value,timestamp.format(IOConstants.changeDBFormatter));
     }
 
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
     //private String escapeString(String entityName) {
     //    return entityName.replaceAll("\\\\","\\\\\\\\").replaceAll("\\\"","\\\\\\\""); //sometimes java regexes require an enourmous amount of escape chars...
    // }
