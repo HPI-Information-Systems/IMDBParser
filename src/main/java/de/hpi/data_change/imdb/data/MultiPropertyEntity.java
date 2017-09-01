@@ -6,21 +6,25 @@ import de.hpi.data_change.data.Property;
 import java.util.Arrays;
 import java.util.List;
 
+
+/**
+ * An entity that can have a property that has a variable length (List)
+ */
 public abstract class MultiPropertyEntity implements CustomEntity{
 
     private String name;
-    private List<String> workTitles;
+    private List<String> propertyValues;
 
     public MultiPropertyEntity(String name, List<String> workTitles) {
         this.name = name;
-        this.workTitles = workTitles;
+        this.propertyValues = workTitles;
     }
 
     @Override
     public String toString() {
         return getPersonType() + "{" +
                 "name='" + name + '\'' +
-                ", workTitles=" + workTitles +
+                ", propertyValues=" + propertyValues +
                 '}';
     }
 
@@ -34,29 +38,29 @@ public abstract class MultiPropertyEntity implements CustomEntity{
         MultiPropertyEntity other = (MultiPropertyEntity) o;
 
         if (name != null ? !name.equals(other.name) : other.name != null) return false;
-        return workTitles != null ? workTitles.equals(other.workTitles) : other.workTitles == null;
+        return propertyValues != null ? propertyValues.equals(other.propertyValues) : other.propertyValues == null;
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (workTitles != null ? workTitles.hashCode() : 0);
+        result = 31 * result + (propertyValues != null ? propertyValues.hashCode() : 0);
         return result;
     }
 
     public Entity toEntity(){
-        return new Entity(name,workTitlesToString());
+        return new Entity(name, getProperties());
     }
 
-    private List<Property> workTitlesToString() {
+    protected List<Property> getProperties() {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
-        for (int i=0;i<workTitles.size();i++) {
-            String workTitle  = workTitles.get(i);
+        for (int i = 0; i< propertyValues.size(); i++) {
+            String workTitle  = propertyValues.get(i);
             builder.append("\"");
             builder.append(workTitle);
             builder.append("\"");
-            if(i!=workTitles.size()-1){
+            if(i!= propertyValues.size()-1){
                 builder.append(",");
             }
         }

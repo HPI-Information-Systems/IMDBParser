@@ -17,12 +17,21 @@ import java.util.stream.IntStream;
 public class SingleFileParsing {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\genres.list\\genres.list");
+        locationStuff();
+        //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\genres.list\\genres.list");
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
-        System.out.println(IOConstants.getEncodingFromFileHeader(src));
+        //System.out.println(IOConstants.getEncodingFromFileHeader(src));
         //otherstuff();
-        actorstuff();
+        //actorstuff();
         //genrestuff();
+    }
+
+    private static void locationStuff() throws IOException {
+
+        File src = new File("/home/leon/Documents/data/imdb/database/locations.list");
+        IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(TableType.Location);
+        parser.parseText(src);
+        parser.getEntities().limit(100).forEach(e -> System.out.println(e));
     }
 
     private static void genrestuff() throws IOException {

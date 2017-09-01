@@ -7,11 +7,12 @@ r  : anythingButStart
 ;
 anythingButStart: ( anyline | ENDSIGNAL )* {System.out.println("Matched Anything but start");};
 anyline : (ANYTHING|SEP)* NEWLINE;
-location: title SEP locationName NEWLINE;
+location: title SEP locationName (SEP description)? NEWLINE;
 
 anyLineOrEOF: (ANYTHING|SEP)* (NEWLINE |EOF);
 title: ANYTHING;
 locationName: ANYTHING;
+description: ANYTHING;
 
 SEP : TAB+;
 STARTSIGNAL : '==============' NL {System.out.println("Matched STARTSIGNAL");};

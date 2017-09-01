@@ -66,6 +66,26 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
 
         InputStreamReader br = new InputStreamReader(is,IOConstants.ENCODING); //TODO: how do we know it is UTF8?
         //StringReader br = new StringReader("\r\nasd\r\n");
+        //doDebugStuff();
+        //StringReader br = new StringReader(new String(buffer));
+        CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
+        Lexer lex = initLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
+        //doMoreDebugStuff(lex, tokens);
+        T parser = initParser(tokens); // transforms tokens into parse trees
+        parser.addParseListener(getListener());
+        ParseTree t = invokeStartRule(parser); // creates the parse tree from the called rule
+    }
+
+    private void doMoreDebugStuff(Lexer lex, CommonTokenStream tokens) {
+        tokens.fill();
+        List<Token> allToks = tokens.getTokens();
+        List<String> tokContents = allToks.stream().map(t -> toLiteralString(t.getText())).collect(Collectors.toList());
+        List<String> tokNames = allToks.stream().map(t -> lex.getVocabulary().getDisplayName(t.getType())).collect(Collectors.toList());
+        IntStream.range(0,tokContents.size()).forEachOrdered(i -> System.out.println(tokNames.get(i) + ":" +tokContents.get(i)));
+    }
+
+    private void doDebugStuff() throws IOException {
         File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\test.txt");
         InputStreamReader br1 = new InputStreamReader(new FileInputStream(src));
         char[] buffer = new char[102400];
@@ -81,18 +101,6 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
             }
             System.out.println( (int) buffer[i] + "  " +buffer[i]);
         }
-        //StringReader br = new StringReader(new String(buffer));
-        CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
-        Lexer lex = initLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
-        tokens.fill();
-        List<Token> allToks = tokens.getTokens();
-        List<String> tokContents = allToks.stream().map(t -> toLiteralString(t.getText())).collect(Collectors.toList());
-        List<String> tokNames = allToks.stream().map(t -> lex.getVocabulary().getDisplayName(t.getType())).collect(Collectors.toList());
-        IntStream.range(0,tokContents.size()).forEachOrdered( i -> System.out.println(tokNames.get(i) + ":" +tokContents.get(i)));
-        T parser = initParser(tokens); // transforms tokens into parse trees
-        parser.addParseListener(getListener());
-        ParseTree t = invokeStartRule(parser); // creates the parse tree from the called rule
     }
 
     private boolean last4wereHyphon(char[] buffer, int i) {
