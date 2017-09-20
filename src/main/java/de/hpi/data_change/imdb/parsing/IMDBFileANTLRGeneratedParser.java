@@ -13,7 +13,6 @@ import de.hpi.data_change.imdb.parsing.locations.LocationsFileParser;
 import de.hpi.data_change.imdb.parsing.genres.GenresFileParser;
 import de.hpi.data_change.imdb.parsing.movies.MovieFileParser;
 import de.hpi.data_change.imdb.parsing.ratings.RatingsFileParser;
-import jdk.internal.util.xml.impl.Input;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -70,9 +69,11 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
         //StringReader br = new StringReader(new String(buffer));
         CharStream input = CharStreams.fromReader(br); // .fromString("hello parrt"); //.fromFileName(file.getAbsolutePath());
         Lexer lex = initLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
+        //CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
+        CommonTokenStream tokens = new CommonTokenStream(lex);
         //doMoreDebugStuff(lex, tokens);
         T parser = initParser(tokens); // transforms tokens into parse trees
+        //parser.setBuildParseTree(false);
         parser.addParseListener(getListener());
         ParseTree t = invokeStartRule(parser); // creates the parse tree from the called rule
     }
@@ -80,13 +81,13 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
     private void doMoreDebugStuff(Lexer lex, CommonTokenStream tokens) {
         tokens.fill();
         List<Token> allToks = tokens.getTokens();
-        List<String> tokContents = allToks.stream().map(t -> toLiteralString(t.getText())).collect(Collectors.toList());
-        List<String> tokNames = allToks.stream().map(t -> lex.getVocabulary().getDisplayName(t.getType())).collect(Collectors.toList());
+        List<String> tokContents = allToks.stream().limit(3000).map(t -> toLiteralString(t.getText())).collect(Collectors.toList());
+        List<String> tokNames = allToks.stream().limit(3000).map(t -> lex.getVocabulary().getDisplayName(t.getType())).collect(Collectors.toList());
         IntStream.range(0,tokContents.size()).forEachOrdered(i -> System.out.println(tokNames.get(i) + ":" +tokContents.get(i)));
     }
 
     private void doDebugStuff() throws IOException {
-        File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\test.txt");
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/actresses.list");
         InputStreamReader br1 = new InputStreamReader(new FileInputStream(src));
         char[] buffer = new char[102400];
         br1.read(buffer,0,102400);
@@ -141,7 +142,7 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
 
     protected abstract ParseTree invokeStartRule(T parser);
 
-    protected abstract T initParser(CommonTokenStream tokens);
+    protected abstract T initParser(TokenStream tokens);
 
     protected abstract Lexer initLexer(CharStream input);
 

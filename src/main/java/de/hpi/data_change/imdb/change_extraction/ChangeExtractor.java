@@ -26,16 +26,16 @@ public class ChangeExtractor {
     private final File targetDir;
     private final List<File> diffFiles;
     private final File originalFile;
-    private final File diffDir;
+    private final File workingDir;
     private boolean diffDirIsTemporary = false;
     private TableType tableType;
     private DiffApplyer diffApplyer = new DiffApplyer();
 
-    public ChangeExtractor(File originalFile, List<File> diffFiles, File targetDir,File diffDir,TableType tableType) {
+    public ChangeExtractor(File originalFile, List<File> diffFiles, File targetDir,File workingDir,TableType tableType) {
         this.originalFile = originalFile;
         this.diffFiles = diffFiles;
         this.targetDir = targetDir;
-        this.diffDir = diffDir;
+        this.workingDir = workingDir;
         this.tableType = tableType;//originalFile.getName().split("\\.")[0];
     }
 
@@ -44,11 +44,11 @@ public class ChangeExtractor {
         if(diffFilesAreCompressed()) {
             System.out.println("launching decompression and extraction of diff files");
             DiffExtractor extractor = new DiffExtractor();
-            extractor.extractDiffFiles(diffFiles, originalFile.getName(), diffDir);
+            extractor.extractDiffFiles(diffFiles, originalFile.getName(), workingDir);
             if (diffDirIsTemporary) {
-                Arrays.stream(diffDir.listFiles()).forEach(f -> f.deleteOnExit());
+                Arrays.stream(workingDir.listFiles()).forEach(f -> f.deleteOnExit());
             }
-            diffs = Arrays.stream(diffDir.listFiles())
+            diffs = Arrays.stream(workingDir.listFiles())
                     .map(f -> new Diff(f, toDate(f.getName())))
                     .collect(Collectors.toList());
         } else{
@@ -65,13 +65,12 @@ public class ChangeExtractor {
     }
 
     private File extractChanges(List<Diff> diffs) throws IOException, InterruptedException {
-        logger.info("Starting to extract changes");
         List<Diff> diffsOrdered = diffs.stream()
                 .sorted((d1, d2) -> d2.getTimestamp().compareTo(d1.getTimestamp()))
                 .collect(Collectors.toList());
         File source = new File(originalFile.getAbsolutePath());
-        File tempFile1 = new File(source.getParentFile(),"intermediate_" + originalFile.getName());
-        File tempFile2 = new File(source.getParentFile(),"intermediate_2_" + originalFile.getName());
+        File tempFile1 = new File(workingDir,"intermediate_" + originalFile.getName());
+        File tempFile2 = new File(workingDir,"intermediate_2_" + originalFile.getName());
         File target = tempFile1;
         LocalDate prevTimestamp = diffsOrdered.get(0).getTimestamp().plus(7, ChronoUnit.DAYS); //TODO: is this correct - we assume that the date of the diff identifies the previous version - it might be the other way around, however it does not really matter for the data contained
         for (int i=0;i<diffsOrdered.size();i++) {

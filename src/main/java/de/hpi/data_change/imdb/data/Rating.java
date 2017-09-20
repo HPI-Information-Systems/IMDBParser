@@ -69,10 +69,10 @@ public class Rating implements CustomEntity {
     }
 
     private List<Property> buildProperties() {
-        return Arrays.asList(new Property("new",new_),
-                new Property("RatingDistribution",distribution),
-                new Property("VotesInRating",votes+""),
-                new Property("RatingRank",rank+"")
+        return Arrays.asList(new Property("Rating.new",new_),
+                new Property("Rating.Distribution",distribution),
+                new Property("Rating.Votes",votes+""),
+                new Property("Rating.Rank",rank+"")
         );
     }
 }

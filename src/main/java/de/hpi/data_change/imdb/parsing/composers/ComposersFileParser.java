@@ -1,12 +1,13 @@
 package de.hpi.data_change.imdb.parsing.composers;
 
-import de.hpi.data_change.imdb.data.Composer;
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.generated.composers.ComposersParser;
 import de.hpi.data_change.imdb.generated.directors.DirectorsLexer;
 import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -15,13 +16,13 @@ import java.util.Collection;
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class ComposersFileParser extends IMDBFileANTLRGeneratedParser<ComposersParser,Composer> {
+public class ComposersFileParser extends IMDBFileANTLRGeneratedParser<ComposersParser,Entity> {
 
     private ComposersAggregator listener;
 
 
     @Override
-    protected Collection<Composer> getResults() {
+    protected Collection<Entity> getResults() {
         return listener.getResult();
     }
 
@@ -36,7 +37,7 @@ public class ComposersFileParser extends IMDBFileANTLRGeneratedParser<ComposersP
     }
 
     @Override
-    protected ComposersParser initParser(CommonTokenStream tokens) {
+    protected ComposersParser initParser(TokenStream tokens) {
         return new ComposersParser(tokens);
     }
 

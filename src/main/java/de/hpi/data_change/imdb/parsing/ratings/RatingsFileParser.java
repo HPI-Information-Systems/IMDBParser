@@ -7,6 +7,7 @@ import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -35,7 +36,7 @@ public class RatingsFileParser extends IMDBFileANTLRGeneratedParser<RatingsParse
     }
 
     @Override
-    protected RatingsParser initParser(CommonTokenStream tokens) {
+    protected RatingsParser initParser(TokenStream tokens) {
         return new RatingsParser(tokens);
     }
 

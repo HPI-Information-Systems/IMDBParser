@@ -1,13 +1,12 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
-import de.hpi.data_change.imdb.data.Director;
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.generated.directors.DirectorsBaseListener;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
@@ -15,11 +14,11 @@ import java.util.Map;
 public class DirectorsAggregator extends DirectorsBaseListener {
 
     private List<String> curWorks = new ArrayList<>();
-    private List<Director> allDirectors = new ArrayList<>();
+    private List<Entity> allMoviesWithDirectors = new ArrayList<>();
 
     @Override public void exitDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx) {
         String directorName = ctx.getChild(0).getText();
-        allDirectors.add(new Director(directorName,curWorks));
+        allMoviesWithDirectors.addAll(curWorks.stream().map(title -> new Entity(title,"Director",directorName)).collect(Collectors.toList()));
         curWorks = new ArrayList<>();
     }
 
@@ -36,7 +35,8 @@ public class DirectorsAggregator extends DirectorsBaseListener {
         }
     }
 
-    public List<Director> getResult() {
-        return allDirectors;
+    public List<Entity> getResult() {
+        return Entity.concatenateByKey(allMoviesWithDirectors);
     }
+
 }

@@ -1,4 +1,4 @@
-// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources/grammars\Actors.g4 by ANTLR 4.7
+// Generated from /home/leon/IdeaProjects/IMDBParser/resources/grammars/Actors.g4 by ANTLR 4.7
 package de.hpi.data_change.imdb.generated.actors;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -560,7 +560,10 @@ public class ActorsParser extends Parser {
 	public static class WorkElementContext extends ParserRuleContext {
 		public TerminalNode ANYTHING() { return getToken(ActorsParser.ANYTHING, 0); }
 		public TerminalNode NEWLINE() { return getToken(ActorsParser.NEWLINE, 0); }
-		public TerminalNode SEP() { return getToken(ActorsParser.SEP, 0); }
+		public List<TerminalNode> SEP() { return getTokens(ActorsParser.SEP); }
+		public TerminalNode SEP(int i) {
+			return getToken(ActorsParser.SEP, i);
+		}
 		public WorkElementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -582,19 +585,23 @@ public class ActorsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(71);
+			setState(73);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==SEP) {
+			while (_la==SEP) {
+				{
 				{
 				setState(70);
 				match(SEP);
 				}
+				}
+				setState(75);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
 			}
-
-			setState(73);
+			setState(76);
 			match(ANYTHING);
-			setState(74);
+			setState(77);
 			match(NEWLINE);
 			}
 		}
@@ -610,25 +617,26 @@ public class ActorsParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7O\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7R\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\2"+
 		"\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3\3\3\3\3\4\7"+
 		"\4(\n\4\f\4\16\4+\13\4\3\4\3\4\3\5\7\5\60\n\5\f\5\16\5\63\13\5\3\5\3\5"+
 		"\3\6\7\68\n\6\f\6\16\6;\13\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\t\6\tE\n\t"+
-		"\r\t\16\tF\3\n\5\nJ\n\n\3\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2"+
-		"\4\4\2\5\5\7\7\3\3\3\3\2L\2\24\3\2\2\2\4!\3\2\2\2\6)\3\2\2\2\b\61\3\2"+
-		"\2\2\n9\3\2\2\2\f<\3\2\2\2\16A\3\2\2\2\20D\3\2\2\2\22I\3\2\2\2\24\25\5"+
-		"\4\3\2\25\26\7\4\2\2\26\27\b\2\1\2\27\30\b\2\1\2\30\31\5\n\6\2\31\32\b"+
-		"\2\1\2\32\33\7\6\2\2\33\34\5\b\5\2\34\3\3\2\2\2\35 \5\6\4\2\36 \7\6\2"+
-		"\2\37\35\3\2\2\2\37\36\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"$\3\2"+
-		"\2\2#!\3\2\2\2$%\b\3\1\2%\5\3\2\2\2&(\t\2\2\2\'&\3\2\2\2(+\3\2\2\2)\'"+
-		"\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\3\2\2-\7\3\2\2\2.\60\t\2\2"+
-		"\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63"+
-		"\61\3\2\2\2\64\65\t\3\2\2\65\t\3\2\2\2\668\5\f\7\2\67\66\3\2\2\28;\3\2"+
-		"\2\29\67\3\2\2\29:\3\2\2\2:\13\3\2\2\2;9\3\2\2\2<=\5\16\b\2=>\7\5\2\2"+
-		">?\5\20\t\2?@\7\3\2\2@\r\3\2\2\2AB\7\7\2\2B\17\3\2\2\2CE\5\22\n\2DC\3"+
-		"\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2G\21\3\2\2\2HJ\7\5\2\2IH\3\2\2\2I"+
-		"J\3\2\2\2JK\3\2\2\2KL\7\7\2\2LM\7\3\2\2M\23\3\2\2\2\t\37!)\619FI";
+		"\r\t\16\tF\3\n\7\nJ\n\n\f\n\16\nM\13\n\3\n\3\n\3\n\3\n\2\2\13\2\4\6\b"+
+		"\n\f\16\20\22\2\4\4\2\5\5\7\7\3\3\3\3\2O\2\24\3\2\2\2\4!\3\2\2\2\6)\3"+
+		"\2\2\2\b\61\3\2\2\2\n9\3\2\2\2\f<\3\2\2\2\16A\3\2\2\2\20D\3\2\2\2\22K"+
+		"\3\2\2\2\24\25\5\4\3\2\25\26\7\4\2\2\26\27\b\2\1\2\27\30\b\2\1\2\30\31"+
+		"\5\n\6\2\31\32\b\2\1\2\32\33\7\6\2\2\33\34\5\b\5\2\34\3\3\2\2\2\35 \5"+
+		"\6\4\2\36 \7\6\2\2\37\35\3\2\2\2\37\36\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!"+
+		"\"\3\2\2\2\"$\3\2\2\2#!\3\2\2\2$%\b\3\1\2%\5\3\2\2\2&(\t\2\2\2\'&\3\2"+
+		"\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\3\2\2-\7\3"+
+		"\2\2\2.\60\t\2\2\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62"+
+		"\64\3\2\2\2\63\61\3\2\2\2\64\65\t\3\2\2\65\t\3\2\2\2\668\5\f\7\2\67\66"+
+		"\3\2\2\28;\3\2\2\29\67\3\2\2\29:\3\2\2\2:\13\3\2\2\2;9\3\2\2\2<=\5\16"+
+		"\b\2=>\7\5\2\2>?\5\20\t\2?@\7\3\2\2@\r\3\2\2\2AB\7\7\2\2B\17\3\2\2\2C"+
+		"E\5\22\n\2DC\3\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2G\21\3\2\2\2HJ\7\5\2"+
+		"\2IH\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2LN\3\2\2\2MK\3\2\2\2NO\7\7\2"+
+		"\2OP\7\3\2\2P\23\3\2\2\2\t\37!)\619FK";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

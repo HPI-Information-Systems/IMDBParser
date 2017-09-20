@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-        </Console>
-        <File name="myFile" fileName="${main:5}" append="true">
-            <PatternLayout pattern="%%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
-    </Appenders>
-    <Loggers>
-        <Root level="all">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="MyFile"/>
-        </Root>
-    </Loggers>
-</Configuration>
+<configuration status="INFO">
+<appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+
+    <File name="MyFile" fileName="log.txt">
+        <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </File>
+</appenders>
+
+<loggers>
+    <root level="debug">
+        <appender-ref ref="Console" level="info"/>
+        <appender-ref ref="MyFile" level="info"/>
+    </root>
+</loggers>
+</configuration>

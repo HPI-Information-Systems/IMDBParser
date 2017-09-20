@@ -1,24 +1,25 @@
 package de.hpi.data_change.imdb.parsing.actors;
 
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.data.Actor;
 import de.hpi.data_change.imdb.generated.actors.ActorsLexer;
 import de.hpi.data_change.imdb.generated.actors.ActorsParser;
 import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
-import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 import java.util.Collection;
 
-public class ActorsFileParser extends IMDBFileANTLRGeneratedParser<ActorsParser,Actor> {
+public class ActorsFileParser extends IMDBFileANTLRGeneratedParser<ActorsParser,Entity> {
 
     private ActorsAggregator listener;
 
     @Override
-    protected Collection<Actor> getResults() {
+    protected Collection<Entity> getResults() {
         return listener.getResult();
     }
 
@@ -33,7 +34,7 @@ public class ActorsFileParser extends IMDBFileANTLRGeneratedParser<ActorsParser,
     }
 
     @Override
-    protected ActorsParser initParser(CommonTokenStream tokens) {
+    protected ActorsParser initParser(TokenStream tokens) {
         return new ActorsParser(tokens);
     }
 

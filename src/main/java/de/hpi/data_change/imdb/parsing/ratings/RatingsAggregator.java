@@ -1,9 +1,6 @@
 package de.hpi.data_change.imdb.parsing.ratings;
 
-import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.data.Rating;
-import de.hpi.data_change.imdb.generated.directors.DirectorsBaseListener;
-import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import de.hpi.data_change.imdb.generated.ratings.RatingsBaseListener;
 import de.hpi.data_change.imdb.generated.ratings.RatingsParser;
 

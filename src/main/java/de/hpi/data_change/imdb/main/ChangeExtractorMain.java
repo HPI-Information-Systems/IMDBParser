@@ -22,7 +22,7 @@ public class ChangeExtractorMain {
      * @param args args[0] path to original File originalFile, args[1] path to diff directory, args[2] change database target directory, args[3] optional, working Directory for the diffs
      */
     public static void main(String[] args) throws IOException, InterruptedException {
-        if(args.length>= 6) {
+        if(args.length>= 5) {
             MainMapLookup.setMainArguments(args);
             logger = LogManager.getLogger(ChangeExtractorMain.class);
         } else{
@@ -32,7 +32,6 @@ public class ChangeExtractorMain {
             System.err.println("args[2] - the path to diff directory (diffs can be either in the compressed form or in text files (.list)");
             System.err.println("args[3] - the target directory for the changes");
             System.err.println("args[4] - a working directory to store temporary files");
-            System.err.println("args[5] - path to a log file");
             return;
         }
         File originalFile = new File(args[0]);

@@ -1,11 +1,9 @@
 package de.hpi.data_change.imdb.parsing.countries;
 
 import de.hpi.data_change.data.Entity;
-import de.hpi.data_change.data.Property;
 import de.hpi.data_change.imdb.generated.countries.CountriesBaseListener;
 import de.hpi.data_change.imdb.generated.countries.CountriesParser;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,10 +15,12 @@ public class CountriesAggregator extends CountriesBaseListener {
 
     @Override public void exitCountry(CountriesParser.CountryContext ctx) {
         assert(ctx.getChildCount()==4);
-        entities.add(new Entity(ctx.getChild(0).getText(), Arrays.asList(new Property("country",ctx.getChild(2).getText()))));
+        String title = ctx.getChild(0).getText();
+        String genre = ctx.getChild(2).getText();
+        entities.add(new Entity(title,"Country",genre));
     }
 
     public List<Entity> getResult() {
-        return entities;
+        return Entity.concatenateByKey(entities);
     }
 }

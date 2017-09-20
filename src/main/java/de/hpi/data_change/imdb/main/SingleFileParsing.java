@@ -17,13 +17,21 @@ import java.util.stream.IntStream;
 public class SingleFileParsing {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        locationStuff();
+        //movies();
+        //locationStuff();
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\genres.list\\genres.list");
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
         //System.out.println(IOConstants.getEncodingFromFileHeader(src));
         //otherstuff();
-        //actorstuff();
+        actorstuff();
         //genrestuff();
+    }
+
+    private static void movies() throws IOException {
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/directors.list");
+        IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(TableType.Directors);
+        parser.parseText(src);
+        parser.getEntities().limit(100).forEach(e -> System.out.println(e));
     }
 
     private static void locationStuff() throws IOException {
@@ -53,7 +61,7 @@ public class SingleFileParsing {
         System.out.println("Parsing single File");
         IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(TableType.Actress);
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
-        File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\test.txt");
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/actresses.list");
         //printstuff1(src);
         //printStuff2(src);
 

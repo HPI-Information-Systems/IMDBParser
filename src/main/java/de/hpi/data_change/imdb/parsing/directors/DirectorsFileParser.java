@@ -1,7 +1,7 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
+import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
-import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -14,13 +14,13 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 /**
  * Created by Leon.Bornemann on 7/19/2017.
  */
-public class DirectorsFileParser extends IMDBFileANTLRGeneratedParser<DirectorsParser,Director> {
+public class DirectorsFileParser extends IMDBFileANTLRGeneratedParser<DirectorsParser,Entity> {
 
     private DirectorsAggregator listener;
 
 
     @Override
-    protected Collection<Director> getResults() {
+    protected Collection<Entity> getResults() {
         return listener.getResult();
     }
 
@@ -35,7 +35,7 @@ public class DirectorsFileParser extends IMDBFileANTLRGeneratedParser<DirectorsP
     }
 
     @Override
-    protected DirectorsParser initParser(CommonTokenStream tokens) {
+    protected DirectorsParser initParser(TokenStream tokens) {
         return new DirectorsParser(tokens);
     }
 

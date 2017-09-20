@@ -1,4 +1,4 @@
-// Generated from C:/Users/Leon.Bornemann/IdeaProjects/IMDBParser/resources/grammars\Actors.g4 by ANTLR 4.7
+// Generated from /home/leon/IdeaProjects/IMDBParser/resources/grammars/Actors.g4 by ANTLR 4.7
 package de.hpi.data_change.imdb.generated.actors;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

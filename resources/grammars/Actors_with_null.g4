@@ -12,12 +12,12 @@ anyline : (ANYTHING|SEP)* NEWLINE ;
 anyLineOrEOF: (ANYTHING|SEP)* (NEWLINE |EOF);
 actorList : (actorAndWork ) *;
 actorAndWork: actorName SEP workList NEWLINE;
-actorName : ANYTHING ;
-workList: workElement+ ;
-workElement: SEP* ANYTHING NEWLINE ;
+actorName : ANYTHING;
+workList: workElement+;
+workElement: SEP? ANYTHING NEWLINE ;
 
 NEWLINE : NL;
-STARTSIGNAL : '----' TAB TAB TAB '------' NL;
+STARTSIGNAL : '----' TAB '\u0000'? TAB '\u0000'? TAB '------' NL;
 SEP : TAB+ ;
 ENDSIGNAL : '-----------------------------------------------------------------------------' NL;
 //ANYTHING: (.)+? ;
@@ -25,5 +25,5 @@ ENDSIGNAL : '-------------------------------------------------------------------
 ANYTHING: ~[\t\r\n]+ ;
 
 //fragment NL: '\r\n';
-fragment NL: '\r' '\n' | '\n';
+fragment NL: '\r' '\u0000'? '\n' | '\n';
 fragment TAB: '\t';
