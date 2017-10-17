@@ -2,9 +2,13 @@ package de.hpi.data_change.imdb.data;
 
 import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.data.Property;
+import de.hpi.data_change.imdb.parsing.InfoExtractor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -12,63 +16,47 @@ import java.util.List;
  */
 public abstract class MultiPropertyEntity implements CustomEntity{
 
-    private String name;
-    private List<String> propertyValues;
+    protected List<Property> rawProperties;
+    protected List<Property> keyProperties;
+    private static InfoExtractor infoExtractor = new InfoExtractor();
+    private String title;
 
-    public MultiPropertyEntity(String name, List<String> workTitles) {
-        this.name = name;
-        this.propertyValues = workTitles;
+    public List<Property> getRawProperties() {
+        return rawProperties;
     }
 
-    @Override
-    public String toString() {
-        return getPersonType() + "{" +
-                "name='" + name + '\'' +
-                ", propertyValues=" + propertyValues +
-                '}';
+    public MultiPropertyEntity(List<Property> keyProperties, String additionalInfo) {
+        this.keyProperties = keyProperties;
+        this.rawProperties = infoExtractor.extractAdditionalInfo(additionalInfo);
     }
-
-    protected abstract String getPersonType();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MultiPropertyEntity other = (MultiPropertyEntity) o;
-
-        if (name != null ? !name.equals(other.name) : other.name != null) return false;
-        return propertyValues != null ? propertyValues.equals(other.propertyValues) : other.propertyValues == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (propertyValues != null ? propertyValues.hashCode() : 0);
-        return result;
-    }
-
-    public Entity toEntity(){
-        return new Entity(name, getProperties());
-    }
-
-    protected List<Property> getProperties() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for (int i = 0; i< propertyValues.size(); i++) {
-            String workTitle  = propertyValues.get(i);
-            builder.append("\"");
-            builder.append(workTitle);
-            builder.append("\"");
-            if(i!= propertyValues.size()-1){
-                builder.append(",");
-            }
+    
+    protected Property extractTrueProperty(String value) {
+        if(value.split("\\s").length>1){
+            String propName = value.split("\\s")[0];
+            String propValue = value.substring(value.indexOf(' ')+1);
+            return new Property(propName,propValue);
+        } else{
+            return new Property(value,"TRUE"); //TODO: workaround for now
         }
-        builder.append("]");
-        return Arrays.asList(new Property(getPropertyName(),builder.toString()));
     }
 
-    protected String getPropertyName() {
-        return "works";
+    @Override
+    public Entity toEntity() {
+        List<Property> props = new ArrayList<>();
+        props.addAll(keyProperties);
+        props.addAll(getTrueProperties());
+        return new Entity(Entity.buildUniqueNameFromProperties(keyProperties),props);
+    }
+
+    protected List<Property> getTrueProperties() {
+        return rawProperties.stream().map( prop -> extractTrueProperty(prop.getValue())).collect(Collectors.toList());
+    }
+
+    public String getTitle() {
+        return keyProperties.stream().filter(p -> p.getName().equals("title")).findAny().get().getValue();
+    }
+
+    public String getName() {
+        return keyProperties.stream().filter(p -> p.getName().equals("name")).findAny().get().getValue();
     }
 }

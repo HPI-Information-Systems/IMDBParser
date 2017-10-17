@@ -15,6 +15,7 @@ public class Entity implements CustomEntity {
 
 
     private static final String VALUE_LIST_DELIMITER = ",";
+    public static final String KEY_SEPARATOR = "|";
 
 
     private static Logger logger = LogManager.getLogger(EntityCollection.class);
@@ -132,5 +133,13 @@ public class Entity implements CustomEntity {
             }
         }
         return map.values().stream().collect(Collectors.toList());
+    }
+
+    public static String buildUniqueNameFromKeys(String key1, String key2) {
+        return key1 + KEY_SEPARATOR + key2;
+    }
+
+    public static String buildUniqueNameFromProperties(List<Property> keyProperties) {
+        return keyProperties.stream().map( k -> k.getValue()).reduce( (s1,s2) -> s1 + KEY_SEPARATOR + s2).get();
     }
 }

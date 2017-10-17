@@ -40,7 +40,11 @@ public class MovieFileParser implements IMDBFileParser {
 
     @Override
     public Stream<Entity> getEntities() {
-       return  videos.stream().map(m -> m.toEntity());
+       return videos.stream().map(m -> m.toEntity());
+    }
+
+    public Stream<Video> getVideos(){
+        return videos.stream();
     }
 
     public void parseFile(InputStream is) throws IOException {

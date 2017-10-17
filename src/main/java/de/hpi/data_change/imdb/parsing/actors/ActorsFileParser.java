@@ -1,50 +1,115 @@
 package de.hpi.data_change.imdb.parsing.actors;
 
 import de.hpi.data_change.data.Entity;
+import de.hpi.data_change.data.Pair;
+import de.hpi.data_change.data.Property;
 import de.hpi.data_change.imdb.data.Actor;
-import de.hpi.data_change.imdb.generated.actors.ActorsLexer;
-import de.hpi.data_change.imdb.generated.actors.ActorsParser;
-import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
+import de.hpi.data_change.imdb.data.Director;
+import de.hpi.data_change.imdb.parsing.IMDBFileParser;
+import de.hpi.data_change.imdb.parsing.InfoExtractor;
+import de.hpi.data_change.imdb.parsing.TitleEndRecognizer;
+import org.apache.logging.log4j.core.util.Assert;
 
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.zip.GZIPInputStream;
 
-public class ActorsFileParser extends IMDBFileANTLRGeneratedParser<ActorsParser,Entity> {
+public class ActorsFileParser implements IMDBFileParser {
 
-    private ActorsAggregator listener;
+    private static final String ENDSIGNAL = "-----------------------------------------------------------------------------";
+    private STATE state = STATE.LookingForStart;
+
+    private static final String START_SIGNAL = "----\t\t\t------";
+    private BufferedReader br;
+    private String curActor;
+    private ArrayList<Actor> actors = new ArrayList<>();
 
     @Override
-    protected Collection<Entity> getResults() {
-        return listener.getResult();
+    public void parseGZ(File source) throws IOException {
+        GZIPInputStream is = new GZIPInputStream(new FileInputStream(source));
+        parseFile(is);
     }
 
     @Override
-    protected ParseTreeListener getListener() {
-        return listener;
+    public void parseText(File source) throws IOException {
+        FileInputStream is = new FileInputStream(source);
+        parseFile(is);
+    }
+
+    private void parseFile(InputStream is) throws IOException {
+        br = new BufferedReader(new InputStreamReader(is));
+        String line = br.readLine();
+        int linCount = 1;
+        while(line != null && state!= STATE.FINSIHED) {
+            if (linCount % 1000000 == 0) {
+                System.out.println("Processed " + linCount + " lines");
+            }
+            switch (state) {
+                case LookingForStart:
+                    processLookingForStart(line);
+                    break;
+                case LOOK_FOR_ACTOR:
+                    processLookForActor(line);
+                    break;
+                case lookingForMovies:
+                    processLookForMovie(line);
+                    break;
+                case FINSIHED:
+                    break;
+                default:
+                    assert false;
+            }
+            line = br.readLine();
+            linCount++;
+            if (linCount % 8000000 == 0) {
+                break;
+            }
+        }
+        br.close();
+    }
+
+    private void processLookForMovie(String line) {
+        if(!line.contains("\t")){
+            assert line.equals("");
+            state = STATE.LOOK_FOR_ACTOR;
+        } else{
+            int parsingStart = line.lastIndexOf("\t")+1;
+            String rest = line.substring(parsingStart);
+            addMovieInfo(rest);
+        }
+    }
+
+    private void addMovieInfo(String rest) {
+        Pair<String,String> splitted = TitleEndRecognizer.splitAfterTitle(rest);
+        String title = splitted.getFirst();
+        String additionalInfo = splitted.getSecond();
+        actors.add(new Actor(curActor,title,additionalInfo));
+    }
+
+    private void processLookForActor(String line) {
+        assert(!line.startsWith("\t"));
+        if(line.equals(ENDSIGNAL)){
+            state = STATE.FINSIHED;
+            return;
+        }
+        String[] tokens = line.split("\\\t+");
+        curActor = tokens[0];
+        String firstMovie = tokens[1];
+        addMovieInfo(firstMovie);
+        state = STATE.lookingForMovies;
+    }
+
+    private void processLookingForStart(String line) {
+        if(line.equals(START_SIGNAL)){
+            state = STATE.LOOK_FOR_ACTOR;
+        }
     }
 
     @Override
-    protected ParseTree invokeStartRule(ActorsParser parser) {
-        return parser.r();
+    public Stream<Entity> getEntities() {
+        return actors.stream().map( actor -> actor.toEntity());
     }
 
-    @Override
-    protected ActorsParser initParser(TokenStream tokens) {
-        return new ActorsParser(tokens);
-    }
-
-    @Override
-    protected Lexer initLexer(CharStream input) {
-        return new ActorsLexer(input);
-    }
-
-    @Override
-    protected void initListener() {
-        this.listener = new ActorsAggregator();
-    }
+    public List<Actor> getActors(){return actors;}
 }

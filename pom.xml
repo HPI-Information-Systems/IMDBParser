@@ -74,6 +74,63 @@
                             <finalName>diffExtractor.jar</finalName>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>make-consistency-executor</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>de.hpi.data_change.imdb.main.ConsistencyChecker</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>consistencyChecker.jar</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>make-singleFileParsing</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>de.hpi.data_change.imdb.main.SingleFileParsing</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>singleFileParsing.jar</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>make-relationalDBExtractor</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>de.hpi.data_change.imdb.main.RelationalDBExtractor</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>relationalDBExtractor.jar</finalName>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -84,6 +141,12 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
         </dependency>
 
 

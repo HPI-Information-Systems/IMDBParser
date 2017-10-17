@@ -21,13 +21,24 @@ public class EntityCollection {
     private Map<String,Entity> entities;
     private LocalDate timestamp;
 
+    public static boolean checkDublicates(List<Entity> entities){
+        Map<String,List<Entity>> byName = entities.stream().collect(Collectors.groupingBy( e -> e.getName()));
+        Set<List<Entity>> res = byName.values().stream().filter(l -> l.size() > 1).collect(Collectors.toSet());
+        for (List<Entity> re : res) {
+            System.out.println("new group:");
+            re.forEach( r -> System.out.println(r));
+        }
+        System.out.println("num Dublicate Key: " + res.size());
+        return res.size() == 0;
+    }
+
     public EntityCollection(List<Entity> entityList, LocalDate timestamp) {
         this.entities = new HashMap<>();
         Set<String> removed = new HashSet<>();
         for (Entity entity : entityList) {
             if(entities.containsKey(entity.getName())){
                 //invalid key - we delete the previous entry
-                logger.warn("Found dublicate entity name: {} removing it and ignoring ll future occurrences",entity.getName());
+                logger.warn("Found dublicate entity name: {} removing it and ignoring all future occurrences",entity.getName());
                 entities.remove(entity.getName());
                 removed.add(entity.getName());
             } else if(!removed.contains(entity.getName())){
@@ -104,7 +115,6 @@ public class EntityCollection {
     }
 
     private void handleDeletedEntities(EntityCollection olderVersion, CSVPrinter writer) throws IOException {
-        //TODO: how to handle this case? Entities getting deleted? --> for now we just delete all its properties
         Set<Entity> deletedEntities = olderVersion.entities.keySet().stream()
                 .filter(k -> !entities.keySet().contains(k))
                 .map(k -> olderVersion.entities.get(k))

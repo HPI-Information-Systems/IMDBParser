@@ -1,12 +1,14 @@
 package de.hpi.data_change.imdb.parsing.directors;
 
-import de.hpi.data_change.data.Entity;
+import de.hpi.data_change.data.Pair;
+import de.hpi.data_change.imdb.data.Director;
 import de.hpi.data_change.imdb.generated.directors.DirectorsBaseListener;
 import de.hpi.data_change.imdb.generated.directors.DirectorsParser;
+import de.hpi.data_change.imdb.parsing.InfoExtractor;
+import de.hpi.data_change.imdb.parsing.TitleEndRecognizer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
@@ -14,11 +16,17 @@ import java.util.stream.Collectors;
 public class DirectorsAggregator extends DirectorsBaseListener {
 
     private List<String> curWorks = new ArrayList<>();
-    private List<Entity> allMoviesWithDirectors = new ArrayList<>();
+    private List<Director> directors = new ArrayList<>();
+    private InfoExtractor infoExtractor = new InfoExtractor();
 
     @Override public void exitDirectorAndWork(DirectorsParser.DirectorAndWorkContext ctx) {
         String directorName = ctx.getChild(0).getText();
-        allMoviesWithDirectors.addAll(curWorks.stream().map(title -> new Entity(title,"Director",directorName)).collect(Collectors.toList()));
+        for(String work :curWorks){
+            Pair<String, String> tokens = TitleEndRecognizer.splitAfterTitle(work);
+            String title = tokens.getFirst();
+            String additionalInfo = tokens.getSecond();
+            directors.add(new Director(directorName,title,additionalInfo));
+        }
         curWorks = new ArrayList<>();
     }
 
@@ -35,8 +43,8 @@ public class DirectorsAggregator extends DirectorsBaseListener {
         }
     }
 
-    public List<Entity> getResult() {
-        return Entity.concatenateByKey(allMoviesWithDirectors);
+    public List<Director> getResult() {
+        return directors;
     }
 
 }
