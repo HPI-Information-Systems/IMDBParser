@@ -62,9 +62,6 @@ public class ActorsFileParser implements IMDBFileParser {
             }
             line = br.readLine();
             linCount++;
-            if (linCount % 8000000 == 0) {
-                break;
-            }
         }
         br.close();
     }

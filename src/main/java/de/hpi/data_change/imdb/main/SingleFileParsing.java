@@ -3,16 +3,12 @@ package de.hpi.data_change.imdb.main;
 import de.hpi.data_change.data.Pair;
 import de.hpi.data_change.data.Property;
 import de.hpi.data_change.imdb.IOConstants;
-import de.hpi.data_change.imdb.change_extraction.DiffApplyer;
 import de.hpi.data_change.imdb.data.TableType;
 import de.hpi.data_change.imdb.database.PostgresInteractor;
 import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
 import de.hpi.data_change.imdb.parsing.IMDBFileParser;
 import de.hpi.data_change.imdb.parsing.TitleEndRecognizer;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
+import de.hpi.data_change.imdb.parsing.plot.PlotFileParser;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -30,8 +26,16 @@ public class SingleFileParsing {
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
         //System.out.println(IOConstants.getEncodingFromFileHeader(src));
         //otherstuff();
-        actorstuff();
+        //actorstuff();
         //genrestuff();
+        plotStuff();
+    }
+
+    private static void plotStuff() throws IOException {
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/plot.list");
+        File srcTest = new File("/home/leon/Desktop/plotTest.list");
+        PlotFileParser parser = new PlotFileParser();
+        parser.parseText(src);
     }
 
     private static void movies() throws IOException, SQLException, ClassNotFoundException {

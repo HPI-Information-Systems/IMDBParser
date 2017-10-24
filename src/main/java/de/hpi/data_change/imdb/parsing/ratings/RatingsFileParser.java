@@ -11,7 +11,9 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Leon.Bornemann on 7/19/2017.
@@ -48,5 +50,9 @@ public class RatingsFileParser extends IMDBFileANTLRGeneratedParser<RatingsParse
     @Override
     protected void initListener() {
         listener = new RatingsAggregator();
+    }
+
+    public List<Rating> getRatings() {
+        return listener.getResult();
     }
 }

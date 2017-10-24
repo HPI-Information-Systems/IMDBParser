@@ -34,17 +34,11 @@ public class EntityCollection {
 
     public EntityCollection(List<Entity> entityList, LocalDate timestamp) {
         this.entities = new HashMap<>();
-        Set<String> removed = new HashSet<>();
         for (Entity entity : entityList) {
             if(entities.containsKey(entity.getName())){
-                //invalid key - we delete the previous entry
-                logger.warn("Found dublicate entity name: {} removing it and ignoring all future occurrences",entity.getName());
-                entities.remove(entity.getName());
-                removed.add(entity.getName());
-            } else if(!removed.contains(entity.getName())){
+                entities.put(entity.getName(),entities.get(entity.getName()).merge(entity));
+            } else {
                 this.entities.put(entity.getName(), entity);
-            } else{
-                logger.warn("Re occurrence of dublicate entity {} , ignoring it",entity.getName());
             }
         }
         this.timestamp = timestamp;

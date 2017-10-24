@@ -20,8 +20,10 @@ public class Actor extends MultiPropertyEntity {
             switch (prop.getName()) {
                 case "squareBracket_1":
                     trueProperties.add(new Property("role", prop.getValue()));
+                    break;
                 case "angularBracket_1":
                     trueProperties.add(new Property("positionInCredits", prop.getValue()));
+                    break;
                 default:
                     extractTrueProperty(prop.getValue());
             }

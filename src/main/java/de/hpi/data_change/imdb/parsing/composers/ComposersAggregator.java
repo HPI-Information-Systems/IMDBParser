@@ -1,8 +1,12 @@
 package de.hpi.data_change.imdb.parsing.composers;
 
 import de.hpi.data_change.data.Entity;
+import de.hpi.data_change.data.Pair;
+import de.hpi.data_change.imdb.data.Composer;
+import de.hpi.data_change.imdb.data.Editor;
 import de.hpi.data_change.imdb.generated.composers.ComposersBaseListener;
 import de.hpi.data_change.imdb.generated.composers.ComposersParser;
+import de.hpi.data_change.imdb.parsing.TitleEndRecognizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +18,18 @@ import java.util.stream.Collectors;
 public class ComposersAggregator extends ComposersBaseListener {
 
     private List<String> curWorks = new ArrayList<>();
-    private List<Entity> allComposers = new ArrayList<>();
+    private List<Composer> allComposers = new ArrayList<>();
 
     @Override public void exitComposerAndWork(ComposersParser.ComposerAndWorkContext ctx) {
         String name = ctx.getChild(0).getText();
-        allComposers.addAll(curWorks.stream().map(title -> new Entity(title,"Composer",name)).collect(Collectors.toList()));
-        curWorks = new ArrayList<>();
+        String editorName = ctx.getChild(0).getText();
+        for(String work :curWorks){
+            Pair<String, String> tokens = TitleEndRecognizer.splitAfterTitle(work);
+            String title = tokens.getFirst();
+            String additionalInfo = tokens.getSecond();
+            allComposers.add(new Composer(name,title,additionalInfo));
+        }
+        curWorks = new ArrayList<>();curWorks = new ArrayList<>();
     }
 
     @Override public void exitWorkElement(ComposersParser.WorkElementContext ctx) {
@@ -31,7 +41,7 @@ public class ComposersAggregator extends ComposersBaseListener {
         }
     }
 
-    public List<Entity> getResult() {
-        return Entity.concatenateByKey(allComposers);
+    public List<Composer> getResult() {
+        return allComposers;
     }
 }

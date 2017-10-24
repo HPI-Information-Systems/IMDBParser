@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class Entity implements CustomEntity {
 
@@ -32,6 +33,11 @@ public class Entity implements CustomEntity {
     public Entity(String entity, String property, String value) {
         this.name = entity;
         this.properties = Arrays.asList(new Property(property,value));
+    }
+
+    public Entity(String entity, Property property) {
+        this.name=entity;
+        this.properties = Arrays.asList(property);
     }
 
     public List<Property> getProperties() {
@@ -93,7 +99,12 @@ public class Entity implements CustomEntity {
     }
 
     public String getValue(String name) {
-        return properties.stream().filter(p -> p.getName().equals(name)).map(p -> p.getValue()).findFirst().get();
+        try {
+            return properties.stream().filter(p -> p.getName().equals(name)).map(p -> p.getValue()).findFirst().get();
+        } catch(NoSuchElementException e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public boolean containsPropertyName(String name) {
@@ -141,5 +152,43 @@ public class Entity implements CustomEntity {
 
     public static String buildUniqueNameFromProperties(List<Property> keyProperties) {
         return keyProperties.stream().map( k -> k.getValue()).reduce( (s1,s2) -> s1 + KEY_SEPARATOR + s2).get();
+    }
+
+    public Entity merge(Entity other) {
+        assert(name.equals(other.name));
+        HashMap<String,String> myProps = getPropertiesAsMap();
+        HashMap<String,String> otherProps = other.getPropertiesAsMap();
+        if(myProps.equals(otherProps)){
+            //easy case
+            return this;
+        } else{
+            List<Property> finalProps = new ArrayList<>();
+            for(String key:myProps.keySet()){
+                String myValue = myProps.get(key);
+                if(otherProps.containsKey(key)){
+                    String otherValue = otherProps.get(key);
+                    if(myValue.equals(otherValue)){
+                        finalProps.add(new Property(key,myValue));
+                    } else{
+                        finalProps.add(new Property(key,myValue + otherValue));
+                    }
+                } else{
+                    finalProps.add(new Property(key,myValue));
+                }
+            }
+            //add other properties that are not contained in this object
+            for(String key:otherProps.keySet()){
+                if(!myProps.containsKey(key)){
+                    finalProps.add(new Property(key,otherProps.get(key)));
+                }
+            }
+            return new Entity(name,finalProps);
+        }
+    }
+
+    public HashMap<String,String> getPropertiesAsMap() {
+        HashMap<String,String> asMap = new HashMap<>();
+        properties.forEach( p -> asMap.put(p.getName(),p.getValue()));
+        return asMap;
     }
 }

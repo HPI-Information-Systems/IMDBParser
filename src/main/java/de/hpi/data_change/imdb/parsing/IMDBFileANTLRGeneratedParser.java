@@ -12,6 +12,7 @@ import de.hpi.data_change.imdb.parsing.editors.EditorsFileParser;
 import de.hpi.data_change.imdb.parsing.locations.LocationsFileParser;
 import de.hpi.data_change.imdb.parsing.genres.GenresFileParser;
 import de.hpi.data_change.imdb.parsing.movies.MovieFileParser;
+import de.hpi.data_change.imdb.parsing.plot.PlotFileParser;
 import de.hpi.data_change.imdb.parsing.ratings.RatingsFileParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -39,6 +40,7 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
             case Composer: return new ComposersFileParser();
             case Country: return new CountriesFileParser();
             case Genre: return new GenresFileParser();
+            case Plot: return new PlotFileParser();
             default: throw new AssertionError("unknown table type specified");
         }
     }
@@ -70,7 +72,7 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
         Lexer lex = initLexer(input);
         //CommonTokenStream tokens = new CommonTokenStream(lex); // a token stream
         CommonTokenStream tokens = new CommonTokenStream(lex);
-        //doMoreDebugStuff(lex, tokens);
+        doMoreDebugStuff(lex, tokens);
         T parser = initParser(tokens); // transforms tokens into parse trees
         //parser.setBuildParseTree(false);
         parser.addParseListener(getListener());
@@ -86,7 +88,7 @@ public abstract class IMDBFileANTLRGeneratedParser<T extends Parser,L extends Cu
     }
 
     private void doDebugStuff() throws IOException {
-        File src = new File("/home/leon/Documents/researchProjects/imdb/database/actresses.list");
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/plot.list");
         InputStreamReader br1 = new InputStreamReader(new FileInputStream(src));
         char[] buffer = new char[102400];
         br1.read(buffer,0,102400);

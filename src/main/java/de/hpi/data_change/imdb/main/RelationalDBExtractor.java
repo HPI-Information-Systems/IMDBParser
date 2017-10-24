@@ -4,15 +4,19 @@ import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.data.EntityCollection;
 import de.hpi.data_change.data.Pair;
 import de.hpi.data_change.data.Property;
-import de.hpi.data_change.imdb.data.Director;
-import de.hpi.data_change.imdb.data.TableType;
+import de.hpi.data_change.imdb.data.Plot;
 import de.hpi.data_change.imdb.data.videos.Movie;
 import de.hpi.data_change.imdb.database.PostgresInteractor;
-import de.hpi.data_change.imdb.parsing.IMDBFileANTLRGeneratedParser;
-import de.hpi.data_change.imdb.parsing.IMDBFileParser;
+import de.hpi.data_change.imdb.parsing.actors.ActorsFileParser;
+import de.hpi.data_change.imdb.parsing.composers.ComposersFileParser;
+import de.hpi.data_change.imdb.parsing.countries.CountriesFileParser;
 import de.hpi.data_change.imdb.parsing.directors.DirectorsFileParser;
 import de.hpi.data_change.imdb.parsing.editors.EditorsFileParser;
+import de.hpi.data_change.imdb.parsing.genres.GenresFileParser;
+import de.hpi.data_change.imdb.parsing.locations.LocationsFileParser;
 import de.hpi.data_change.imdb.parsing.movies.MovieFileParser;
+import de.hpi.data_change.imdb.parsing.plot.PlotFileParser;
+import de.hpi.data_change.imdb.parsing.ratings.RatingsFileParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +33,6 @@ public class RelationalDBExtractor {
         MovieFileParser moviesParser = new MovieFileParser();
         moviesParser.parseText(moviesFile);
         allExistingMovies = moviesParser.getVideos().map(  v -> v.toEntity().getName()).collect(Collectors.toSet());
-
         Set<String> existingKeys = moviesParser.getVideos()
                 .filter( v -> v instanceof Movie)
                 .map(m -> m.toEntity())
@@ -37,10 +40,93 @@ public class RelationalDBExtractor {
                 .map(e -> e.getName()).collect(Collectors.toSet());
         //new
         PostgresInteractor interactor = new PostgresInteractor();
-        //addActresses(existingKeys, interactor);
         //addActors(existingKeys,interactor);
+        //addActresses(existingKeys, interactor);
         //addDirectors(existingKeys,interactor);
-        addEditors(existingKeys,interactor);
+        //addEditors(existingKeys,interactor);
+        //addCountries(existingKeys,interactor);
+        //addComposers(existingKeys,interactor);
+        //addGenres();
+        //addLocations();
+        //addRatings(existingKeys,interactor);
+        addPlots(existingKeys,interactor);
+    }
+
+    private static void addPlots(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
+        PlotFileParser parser = new PlotFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/plot.list");
+        FileInspector inspector = new FileInspector(src);
+        int LineCount = 1;
+//        while(true){
+//            if(LineCount >= 761828) {
+//                inspector.printDetailedLine();
+//            } else{
+//                inspector.nextLine();
+//            }
+//            LineCount++;
+//        }
+        parser.parseText(src);
+        EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        System.out.println("plots incorrectly referencing: " +parser.getPlots().stream().filter( e -> !allExistingMovies.contains(e.getTitle())).count());
+        interactor.insertPlots(parser.getPlots().stream().filter( e -> existingKeys.contains(e.getTitle())).collect(Collectors.toList()));
+
+    }
+
+    private static void addRatings(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
+        RatingsFileParser parser = new RatingsFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/ratings.list");
+        parser.parseText(src);
+        interactor.insertRatings(parser.getRatings().stream().filter( e -> existingKeys.contains(e.getTitle())).collect(Collectors.toList()));
+
+        //EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        //System.out.println("countries incorrectly referencing: " +parser.getRatings().stream().filter( e -> !allExistingMovies.contains(e.getTitle())).count());
+//        Map<String, List<Property>> res = parser.getRatings().stream().filter(d -> d.getRawProperties().size()!=0).flatMap(d -> d.getRawProperties().stream())
+//                .collect(Collectors.groupingBy(p -> p.getName()));
+//        printInfo(res, parser.getEntities().collect(Collectors.toList()));
+    }
+
+    private static void addLocations() throws IOException {
+        LocationsFileParser parser = new LocationsFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/locations.list");
+        parser.parseText(src);
+        //EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        Map<String, List<Property>> res = parser.getLocations().stream().filter(d -> d.getRawProperties().size()!=0).flatMap(d -> d.getRawProperties().stream())
+                .collect(Collectors.groupingBy(p -> p.getName()));
+        printInfo(res, parser.getEntities().collect(Collectors.toList()));
+    }
+
+    private static void addGenres() throws IOException {
+        GenresFileParser parser = new GenresFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/genres.list");
+        parser.parseText(src);
+        EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        Map<String, List<Property>> res = parser.getGenres().stream().filter(d -> d.getRawProperties().size()!=0).flatMap(d -> d.getRawProperties().stream())
+                .collect(Collectors.groupingBy(p -> p.getName()));
+        printInfo(res, parser.getEntities().collect(Collectors.toList()));
+    }
+
+    private static void addComposers(Set<String> existingKeys, PostgresInteractor interactor) throws IOException {
+        ComposersFileParser parser = new ComposersFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/composers.list");
+        parser.parseText(src);
+        EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        Map<String, List<Property>> res = parser.getComposers().stream().filter(d -> d.getRawProperties().size()!=0).flatMap(d -> d.getRawProperties().stream())
+            .collect(Collectors.groupingBy(p -> p.getName()));
+        printInfo(res, parser.getEntities().collect(Collectors.toList()));
+
+    }
+
+    private static void addCountries(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
+        CountriesFileParser parser = new CountriesFileParser();
+        File src = new File("/home/leon/Documents/researchProjects/imdb/database/countries.list");
+        parser.parseText(src);
+        EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        System.out.println("maxLengthDirector" + parser.getCountries().stream().mapToInt(e -> e.getName().length()).max());
+
+        System.out.println("countries incorrectly referencing: " +parser.getCountries().stream().filter( e -> !allExistingMovies.contains(e.getTitle())).count());
+
+        interactor.insertCountries(parser.getCountries().stream().filter( e -> existingKeys.contains(e.getTitle())).collect(Collectors.toList()));
+//
     }
 
     private static void addEditors(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
@@ -89,7 +175,8 @@ public class RelationalDBExtractor {
         //printInfo(res);
     }
 
-    private static void printInfo(Map<String, List<Property>> res) {
+    private static void printInfo(Map<String, List<Property>> res, List<Entity> entities) {
+        System.out.println("countries incorrectly referencing: " +entities.stream().filter( e -> !allExistingMovies.contains(e.getValue("title"))).count());
         System.out.println("Raw Properties By Property Name");
         res.entrySet().stream().map( e -> buildUniqueVals(e)).forEach(
                 v -> printV(v)
@@ -103,6 +190,10 @@ public class RelationalDBExtractor {
                     .sorted( (p2,p1) -> p1.getSecond().compareTo(p2.getSecond())).limit(100).forEachOrdered(p -> System.out.println(p));
         }
 
+        System.out.println("Value-Properties:");
+        res.values().stream().flatMap( p -> p.stream()).map(p -> p.getValue()).filter(s -> s.contains(" ")).collect(Collectors.groupingBy(s -> s)).entrySet().stream().map(e -> new Pair<>(e.getKey(),e.getValue().size()))
+                .sorted( (p2,p1) -> p1.getSecond().compareTo(p2.getSecond())).limit(100).forEachOrdered(p -> System.out.println("\t" + p));
+
         System.out.println("Boolean properties:");
         res.values().stream().flatMap( p -> p.stream()).map(p -> p.getValue()).filter(s -> !s.contains(" ")).collect(Collectors.groupingBy(s -> s)).entrySet().stream().map(e -> new Pair<>(e.getKey(),e.getValue().size()))
                 .sorted( (p2,p1) -> p1.getSecond().compareTo(p2.getSecond())).limit(100).forEachOrdered(p -> System.out.println("\t" + p));
@@ -110,36 +201,36 @@ public class RelationalDBExtractor {
     }
 
     private static void addActors(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
-        IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(TableType.Actor);
+        ActorsFileParser parser = new ActorsFileParser();
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
         File src = new File("/home/leon/Documents/researchProjects/imdb/database/actors.list");
         //printstuff1(src);
         //printStuff2(src);
         parser.parseText(src);
-        List<List<String>> actors = parser.getEntities().filter(e -> existingKeys.contains(e.getValue("movie"))).map(e -> toList(e)).collect(Collectors.toList());
+        List<List<String>> actors = parser.getActors().stream().filter(e -> existingKeys.contains(e.getTitle())).map(e -> toList(e.toEntity())).collect(Collectors.toList());
         parser = null;
-        interactor.insertActresses(actors);
+        interactor.insertActors(actors);
     }
 
     private static void addActresses(Set<String> existingKeys, PostgresInteractor interactor) throws IOException, SQLException {
-        IMDBFileParser parser = IMDBFileANTLRGeneratedParser.createParser(TableType.Actress);
+        ActorsFileParser parser = new ActorsFileParser();
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
         File src = new File("/home/leon/Documents/researchProjects/imdb/database/actresses.list");
         //printstuff1(src);
         //printStuff2(src);
         parser.parseText(src);
-        EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
-        //List<List<String>> actresses = parser.getEntities().filter(e -> existingKeys.contains(e.getValue("movie"))).map(e -> toList(e)).collect(Collectors.toList());
-        //interactor.insertActresses(actresses);
+        //EntityCollection.checkDublicates(parser.getEntities().collect(Collectors.toList()));
+        List<List<String>> actresses = parser.getActors().stream().filter(e -> existingKeys.contains(e.getTitle())).map(e -> toList(e.toEntity())).collect(Collectors.toList());
+        interactor.insertActresses(actresses);
     }
 
     private static List<String> toList(Entity e) {
         List<String> stuff = new ArrayList<>();
-        stuff.add(e.getName());
-        stuff.add(e.getValue("movie"));
-        stuff.add(e.containsPropertyName("squareBracket_1")? e.getValue("squareBracket_1") : null);
-        stuff.add(e.containsPropertyName("roundBracket_1")? e.getValue("roundBracket_1") : null);
-        stuff.add(e.containsPropertyName("angularBrackte_1")? e.getValue("angularBrackte_1") : null);
+        stuff.add(e.getValue("name"));
+        stuff.add(e.getValue("title"));
+        stuff.add(e.containsPropertyName("role")? e.getValue("role") : null);
+        stuff.add(e.containsPropertyName("as")? e.getValue("as") : null);
+        stuff.add(e.containsPropertyName("positionInCredits")? e.getValue("positionInCredits") : null);
         return stuff;
     }
 
