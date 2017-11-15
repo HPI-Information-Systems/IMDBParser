@@ -167,10 +167,14 @@ public class Entity implements CustomEntity {
                 String myValue = myProps.get(key);
                 if(otherProps.containsKey(key)){
                     String otherValue = otherProps.get(key);
-                    if(myValue.equals(otherValue)){
-                        finalProps.add(new Property(key,myValue));
-                    } else{
-                        finalProps.add(new Property(key,myValue + otherValue));
+                    try {
+                        if (myValue.equals(otherValue)) {
+                            finalProps.add(new Property(key, myValue));
+                        } else {
+                            finalProps.add(new Property(key, myValue + otherValue));
+                        }
+                    } catch (NullPointerException e){
+                        throw e;
                     }
                 } else{
                     finalProps.add(new Property(key,myValue));

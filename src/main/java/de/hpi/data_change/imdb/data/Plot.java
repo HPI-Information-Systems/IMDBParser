@@ -23,7 +23,7 @@ public class Plot implements CustomEntity{
         this.author = author;
     }
 
-    public Plot(String curTitle, String plotDescription) {
+    public Plot(String title, String plotDescription) {
         this.title = title;
         this.plotDescription = plotDescription;
         this.author = unknownAuthorConstant;
