@@ -20,7 +20,7 @@ public class SingleFileParsing {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, ClassNotFoundException {
         //System.out.println(TitleEndRecognizer.matchesCurly("{Tussen twee problemen in (#1.5)}"));
-        //movies();
+        movies();
         //locationStuff();
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\genres.list\\genres.list");
         //File src = new File("C:\\Users\\Leon.Bornemann\\Documents\\Database Changes\\Data\\IMDB\\Database\\actresses.list\\actresses.list");
@@ -28,7 +28,7 @@ public class SingleFileParsing {
         //otherstuff();
         //actorstuff();
         //genrestuff();
-        plotStuff();
+        //plotStuff();
     }
 
     private static void plotStuff() throws IOException {

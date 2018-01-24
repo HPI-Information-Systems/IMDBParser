@@ -4,21 +4,30 @@ import de.hpi.data_change.data.Entity;
 import de.hpi.data_change.data.Pair;
 import de.hpi.data_change.imdb.data.*;
 
-import java.sql.PreparedStatement;
+import java.sql.*;
 import java.util.List;
-
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class PostgresInteractor {
 
     private final Connection connection;
+    private final Connection connection2;
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        new PostgresInteractor().testChangeDB();
+    }
 
     public PostgresInteractor() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         connection = DriverManager.getConnection(
                 "jdbc:postgresql://localhost/imdb","leon", "admin");
+        connection2 = DriverManager.getConnection(
+                "jdbc:postgresql://localhost/changedb","dummy", "dummy");
+    }
+
+    public void testChangeDB() throws SQLException {
+        PreparedStatement stat = connection2.prepareStatement("SELECT * FROM imdbchanges LIMIT 100");
+        ResultSet a = stat.executeQuery();
+        System.out.println(a.next());
     }
 
     public void insertMovies(List<Pair<String,String>> movies) throws SQLException {

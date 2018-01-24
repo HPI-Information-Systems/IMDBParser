@@ -36,9 +36,6 @@ public class Director implements CustomEntity {
 
     @Override
     public Entity toEntity() {
-        if(name.equals("Kriegman, Mitchell") && title.equals("\"The Book of Pooh\" (2001) {I Could Have Laughed All Night/X Spots the Mark (#1.7)}")){
-            System.out.println("lol");
-        }
         List<Property> keyProperties=new ArrayList<>();
         List<Property> trueProperties=new ArrayList<>();
         keyProperties.add(new Property("name",name));
