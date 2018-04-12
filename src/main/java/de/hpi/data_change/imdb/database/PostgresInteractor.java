@@ -7,27 +7,17 @@ import de.hpi.data_change.imdb.data.*;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Class to insert data into a postgresql database. Was only used to extract an interesting database for students to work on.
+ */
 public class PostgresInteractor {
 
     private final Connection connection;
-    private final Connection connection2;
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        new PostgresInteractor().testChangeDB();
-    }
-
-    public PostgresInteractor() throws ClassNotFoundException, SQLException {
+    public PostgresInteractor(String url,String user,String pw) throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost/imdb","leon", "admin");
-        connection2 = DriverManager.getConnection(
-                "jdbc:postgresql://localhost/changedb","dummy", "dummy");
-    }
-
-    public void testChangeDB() throws SQLException {
-        PreparedStatement stat = connection2.prepareStatement("SELECT * FROM imdbchanges LIMIT 100");
-        ResultSet a = stat.executeQuery();
-        System.out.println(a.next());
+                url,user, pw);
     }
 
     public void insertMovies(List<Pair<String,String>> movies) throws SQLException {

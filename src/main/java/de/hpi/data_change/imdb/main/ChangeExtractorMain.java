@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/***
+ * Main Class to extract the IMDB history. Run without arguments to see usage. Only works on Linux as it uses the patch command
+ */
 public class ChangeExtractorMain {
 
     static Logger logger;

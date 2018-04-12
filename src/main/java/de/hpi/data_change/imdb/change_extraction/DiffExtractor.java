@@ -14,7 +14,7 @@ public class DiffExtractor {
 
     public void extractDiffFiles(List<File> diffFiles, String originalFilename, File extractionDir) throws IOException {
         for(File tarGzFile : diffFiles) {
-            //TODO: somehow this seems to get slower with each outer iteration - why?
+            //somehow this seems to get slower with each outer iteration - why?
             System.out.println("processing " + tarGzFile.getName());
             TarArchiveInputStream tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(tarGzFile)), IOConstants.ENCODING);
             TarArchiveEntry curEntry = tarInput.getNextTarEntry();

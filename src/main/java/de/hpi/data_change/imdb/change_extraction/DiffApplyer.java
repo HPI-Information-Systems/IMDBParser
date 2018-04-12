@@ -30,23 +30,4 @@ public class DiffApplyer {
         p.waitFor();
     }
 
-    public boolean applyDiffForwards(File original, File diffFile, File target) throws IOException, InterruptedException {
-        String cmd = "patch";
-        String arg1 = original.getAbsolutePath();
-        String arg2 = diffFile.getAbsolutePath();
-        String arg3 = "-o";
-        String arg4 = target.getAbsolutePath();
-        System.out.println("executing " + cmd + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
-        ProcessBuilder pb = new ProcessBuilder(cmd,arg1,arg2,arg3,arg4)
-                .redirectErrorStream(true);
-        pb.inheritIO();
-        execute(pb);
-        if(new File(target.getAbsolutePath() + ".rej").exists()){
-            System.err.println("Houston we have a problem...");
-            return false;
-        } else{
-            return true;
-        }
-    }
-
 }
