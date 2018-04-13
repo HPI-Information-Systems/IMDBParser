@@ -8,7 +8,7 @@ Before IMDB started publishing their data as [tsv-files](https://datasets.imdbws
 
 ### Usage
 The tool only works on Linux, since it uses the patch command (see [DiffApplyer](/src/main/java/de/hpi/data_change/imdb/change_extraction/DiffApplyer.java)).
-To extract the data, download the data as mentioned above. Then run [ChangeExtractorMain](/src/main/de/hpi/data_change/imdb/main/ChangeExtractorMain.java) with no parameters to view Usage instructions.
+To extract the data, download the data as mentioned above. Then run [ChangeExtractorMain](/src/main/java/de/hpi/data_change/imdb/main/ChangeExtractorMain.java) with no parameters to view Usage instructions.
 The tool only supports parsing actors, composers, countries, directors, editors, genres, locations, plots and ratings. 
 
 ### Architecture
